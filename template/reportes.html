@@ -1,0 +1,79 @@
+{% extends 'template_docentes.html' %}
+{% block titulo %}Reportes{% endblock  %}
+{% block content %}
+    <div class="contenido">
+
+
+        <select id="Niveles" name="Niveles">
+                <option >Nivel</option>
+                {% for row in niveles %}
+                       <option value="{{ row.id }}"> {{ row.nombre }} </option>
+                {% endfor %}
+
+            </select>
+            <select id="Grados" name="Grados">
+                <option >Grado</option>
+                {% for row in grados %}
+                       <option value="{{ row.id }}"> {{ row.nombre }} </option>
+                {% endfor %}
+            </select>
+            <select id="Materias" name="Materias">
+                <option >Materia</option>
+                {% for row in materias %}
+                       <option value="{{ row.id }}"> {{ row.nombre }} </option>
+                {% endfor %}
+            </select>
+
+            <button type="button" onclick="#" value ="10">IR!</button>
+
+            <div class="col-sm-12">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <table class="table table-striped">
+                        <thead>
+                          <tr class="info">
+                            <th>Nombres</th>
+                            <th>Apellidos</th>
+                            <th>Notas</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>John</td>
+                            <td>Doe</td>
+                            <td>15</td>
+                          </tr>
+                          <tr>
+                            <td>Mary</td>
+                            <td>Moe</td>
+                            <td>10</td>
+                          </tr>
+                          <tr>
+                            <td>July</td>
+                            <td>Dooley</td>
+                            <td>08</td>
+                          </tr>
+                          <tr>
+                            <td>simon</td>
+                            <td>stuart</td>
+                            <td>18</td>
+                          </tr>
+                          <tr>
+                            <td>Adam</td>
+                            <td>flim</td>
+                            <td>16</td>
+                          </tr>
+                          <tr>
+                            <td>luci</td>
+                            <td>samper</td>
+                            <td>14</td>
+                          </tr>
+                        </tbody>
+                     </table>
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+
+         </div>
+
+{% endblock %}

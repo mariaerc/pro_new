@@ -1,0 +1,35 @@
+{% extends 'template_docentes.html' %}
+{% block titulo %}Agregar{% endblock  %}
+{% block content %}
+    <form action="" method=post name="formularioagre" class="formagregar">
+        {% csrf_token %}
+        <div class="contenido">
+
+
+            <select id="Niveles" name="Niveles">
+                    <option value="0">Escoja un nivel</option>
+                    {% for row in niveles %}
+                       <option value="{{ row.id }}"> {{ row.nombre }} </option>
+                    {% endfor %}
+                </select>
+                <select id="Materias" name="Materias">
+                    <option >Materia</option>
+                    {% for row in materias %}
+                       <option value="{{ row.id }}"> {{ row.nombre }} </option>
+                    {% endfor %}
+                </select>
+                <select id="Caso_ID" name="casos">
+                    <option >Casos</option>
+                    {% for row in casos %}
+                       <option value="{{ row.id }}"> {{ row.id }} </option>
+                    {% endfor %}
+
+                <input class = "Nopciones" type="text" name="Nopciones"  placeholder="N°Opci" />
+                <br />
+                <input type="text" name="enunciado"  placeholder="Ingresa El Enunciado De La Pregunta" /> <br />
+
+                <button type="submit" value ="10" href="#">Continuar</button>
+
+            </div>
+        </form>
+{% endblock %}

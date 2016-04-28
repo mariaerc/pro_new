@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>{% block titulo %} {% endblock %} </title>
+    <link rel ="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/jquery-latest.js"></script>
+    <script>
+            function enviar_formulario(){
+                document.formulario1.submit()
+            }
+    </script>
+</head>
+
+<body>
+<header>
+        <div class="wrapper">
+            <div class="tite">
+                Institucion Educativa Tecnica sumapaz
+            </div>
+            <div class="logo">
+                <img src="/static/images/sumapaz.png">
+            </div>
+        </div>
+    </header>
+
+{% block content %}
+{% endblock %}
+
+<div class="pie">
+         <a>&copy; 2016 Colegio Sumapaz Campestre .Todos los Derechos Reservados</a>.
+    </div>
+</body>
+</html>

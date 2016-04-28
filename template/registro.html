@@ -1,0 +1,29 @@
+{% extends 'template.html' %}
+{% block titulo %}Registrate {% endblock  %}
+{% block content %}
+    
+    <form action="" method=post name="formulario1" class="formregistro">
+        {% csrf_token %}
+		<img src ="/static/images/descarga.png">
+		<h1>REGISTRATE</h1><br>
+            <label> Nombre:</label>
+            <input type="text" name="name" max-length="20" placeholder="Ingresa tu nombre"/> <br />
+            
+            <label> Grado:</label>
+			<input type="text" name = "grado" max-length="20" placeholder="Ingresa tu grado"/> <br />
+            
+            <label >Usuario:</label>
+			<input type="text" name="user" max-length="20" placeholder="Ingresa tu user"/> <br />
+            
+            <label >Contraseña:</label>
+			<input type="password" name="password" max-length="20" placeholder="ingresa tu password"/> <br />
+            <label >Confirma Tu Contraseña:</label>
+            <input type="password" name="password2" max-length="20" placeholder="ingresa tu password"/> <br />
+			<!--<input class="radio" type="radio" name="Tipo"/><h2>Estudiante</h2><br /> -->
+			<!--<input class="radio" type="radio" name="Tipo"/><h2>Docente</h2><br /> -->
+        
+            <button type="submit" value ="10" href="javascript:enviar_formulario()">Registarme</button>
+		
+
+		</form>
+{% endblock %}
