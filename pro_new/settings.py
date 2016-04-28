@@ -80,14 +80,15 @@ WSGI_APPLICATION = 'pro_new.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'prsemestral',
-        'USER': 'semusr',
-        'PASSWORD': '12345',
-        'OPTIONS': {
-            'autocommit': True,
+        #'ENGINE': 'django.db.backends.mysql',
+        #'NAME': 'prsemestral',
+        #'USER': 'semusr',
+        #'PASSWORD': '12345',
+        #'OPTIONS': {
+            #'autocommit': True,
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         },
-    }
 }
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
