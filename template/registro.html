@@ -1,29 +1,75 @@
-{% extends 'template.html' %}
-{% block titulo %}Registrate {% endblock  %}
+{% extends 'template_docentes.html' %}
+{% block titulo %}Registrar Estudiante{% endblock  %}
 {% block content %}
-    
-    <form action="" method=post name="formulario1" class="formregistro">
+  <div class = "contenido_docente">
+    <h1 class="tit-grados">REGISTRAR ESTUDIANTE</h1>
+    {% if mess != "" %}
+      <a class="user_dupl">!Ya existe un estudiante con el mismo documento¡</a>
+    {% endif %}
+    <div class="form-registro">
+      <form action="{% url 'registro' %}" method=post name="formulario1" id="fRegistroEst">
         {% csrf_token %}
-		<img src ="/static/images/descarga.png">
-		<h1>REGISTRATE</h1><br>
-            <label> Nombre:</label>
-            <input type="text" name="name" max-length="20" placeholder="Ingresa tu nombre"/> <br />
-            
-            <label> Grado:</label>
-			<input type="text" name = "grado" max-length="20" placeholder="Ingresa tu grado"/> <br />
-            
-            <label >Usuario:</label>
-			<input type="text" name="user" max-length="20" placeholder="Ingresa tu user"/> <br />
-            
-            <label >Contraseña:</label>
-			<input type="password" name="password" max-length="20" placeholder="ingresa tu password"/> <br />
-            <label >Confirma Tu Contraseña:</label>
-            <input type="password" name="password2" max-length="20" placeholder="ingresa tu password"/> <br />
-			<!--<input class="radio" type="radio" name="Tipo"/><h2>Estudiante</h2><br /> -->
-			<!--<input class="radio" type="radio" name="Tipo"/><h2>Docente</h2><br /> -->
-        
-            <button type="submit" value ="10" href="javascript:enviar_formulario()">Registarme</button>
-		
 
-		</form>
+        <label class="lab_formr" > Nombres:</label>
+        <input class="text_reg" type="text" id="name" name="name" maxlength="20" placeholder="Ingrese nombres"/> <br /> <br /> <br /><br />
+        <a id="men_name" class="lab_f" style="display:none">Campo Nombre no puede ser vacio!</a>
+
+        <label class="lab_formr" > Apellidos:</label>
+        <input class="text_reg" type="text" id="apellidos" name="apellidos" maxlength="20" placeholder="Ingrese apellidos"/> <br /> <br /> <br /><br />
+        <a id="men_apellido" class="lab_f" style="display:none">Campo Apellidos no puede ser vacio!</a>
+
+        <label class="lab_formr" >Documento:</label>
+        <input class="text_reg" type="number" name="documento" id="documento" placeholder="Ingrese documento"/> <br /> <br /><br /><br />
+        <a id="men_documento" class="lab_f" style="display:none">Campo Documento no puede ser vacio!</a>
+
+        <label class="lab_formr"> Selecciona Grado:</label>
+        <select class="select_grador" id="Grados" name="Grados">
+                <option value = "0">Grados</option>
+                {% for row in grados %}
+                   <option value="{{ row.id }}"> {{ row.nombre }} {{ row.jornada }}</option>
+                {% endfor %}
+        </select><br> <br /> <br /><br />
+        <a id="men_select" class="lab_f" style="display:none">Selecciona una opcion</a>
+
+      </form>
+      <button onclick="validarReg();" class="btn_registro">Enviar</button>
+    </div>
+
+  </div>
+<script type="text/javascript">
+function gId(id)
+{
+    return document.getElementById(id);
+}
+function validarReg() {
+    var name =document.getElementById('name').value;
+    var apellidos =document.getElementById('apellidos').value;
+    var documento =document.getElementById('documento').value;
+    var grado = document.getElementById('Grados').value;
+
+    if(document.getElementById('name').value == "" )
+    {
+      gId("men_name").style.display = "block";
+    }
+    if(document.getElementById('apellidos').value == "" )
+    {
+      gId("men_apellido").style.display = "block";
+    }
+    if(document.getElementById('documento').value == "" )
+    {
+      gId("men_documento").style.display = "block";
+    }
+    if(document.getElementById('Grados').value == "0" )
+    {
+      gId("men_select").style.display = "block";
+    }
+
+    if (name != "" && apellidos != "" && documento != "" && grado != "0")
+    {
+        gId("fRegistroEst").submit();
+    }
+
+
+}
+</script>
 {% endblock %}

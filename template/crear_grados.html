@@ -1,0 +1,241 @@
+{% extends 'template_docentes.html' %}
+{% block titulo %}Listado De Grados{% endblock  %}
+{% block content %}
+    <div class = "contenido_docente">
+      <h1 class="tit-grados">GRADOS</h1><br><br>
+      <div class="foldPan">
+        <a  id="btn_fold_grupo" class="btn_fold_grupo"><span class="icon-plus"> </span>NUEVO GRADO</a>
+      </div>
+      <div id="modal_confirmacion" class="modal_archivo">
+
+            <!-- Modal content -->
+        <div class="modal-content-archivo">
+              <a class="etiqueta_nivel">¿Seguro Que Desea Eliminar?</a><br>
+              <button onclick="confirmacion();" class="btn_si">Si</button>
+              <button onclick="cancelar();" class="btn_no">No</button>
+        </div>
+      </div>
+      <div id="modal" class="modal">
+
+    	  <!-- Modal content -->
+    		<div class="modal-content">
+    			<span class="close">x</span>
+    			<!-- Formulari -->
+          <form action="{% url 'agre_grupo' %}" id="formNew" method=post name="formularioagrecasos" class="form_grado">
+              {% csrf_token %}
+              <div class="contenido">
+                  <a class="etiqueta_grado">Nombre Del Grado :  </a><br>
+                  <input id = "New_Grupo" class = "text_grados" type="text" name="Nom_Grupo"  placeholder="Nombre Grado" />
+                  <select class="select_nivel" id="Niveles" name="Niveles" >
+                      <option class="opt-selects" value = "0">Niveles</option>
+
+                      {% for row in niveles %}
+                        <option class="opt-selects" value="{{ row.id }}"> {{ row.nombre }} </option>
+                      {% endfor %}
+                  </select>
+                  <select class="select_nivel" id="Jornadas" name="Jornadas" >
+                      <option class="opt-selects" value = "0">Jornada</option>
+                      <option class="opt-selects" value="Mañana">Mañana</option>
+                      <option class="opt-selects" value="Tarde">Tarde</option>
+                  </select><br>
+              </div>
+              <a id="men_campo" class="men_campo" style="display:none">Faltan Datos</a>
+          </form>
+          <button onclick="confirmaNuevo();"class="btn_save">Guardar</button>
+        </div>
+      </div>
+
+      <div id="modal2" class="modal">
+
+       <!-- Modal content -->
+       <div class="modal-content">
+         <span class="close2">x</span>
+         <!-- Formulari -->
+         <form action="{% url 'edit_grado' %}" id="formEdit" method=post name="formularioagrecasos" class="form_grado">
+             {% csrf_token %}
+             <div class="contenido">
+                 <a class="etiqueta_grado">Nombre Del Grupo :  </a><br>
+                 <input id = "Nom_grado" class = "text_grados" type="text" name="Nom_grado"  placeholder="Nombre Grado" />
+                  <input type="hidden" name="id_grado" id="id_grado" value="">
+                 <select class="select_nivel" id="Nivel" name="Nivel" >
+                     <option class="opt-selects" value = "0">Niveles</option>
+
+                     {% for row in niveles %}
+                       <option class="opt-selects" value="{{ row.id }}"> {{ row.nombre }} </option>
+                     {% endfor %}
+                 </select>
+                 <select class="select_nivel" id="Jornada" name="Jornada" >
+                     <option class="opt-selects" value = "0">Jornada</option>
+                     <option class="opt-selects" value="Mañana">Mañana</option>
+                     <option class="opt-selects" value="Tarde">Tarde</option>
+                 </select><br>
+             </div>
+             <a id="men_campo2" class="men_campo" style="display:none">Faltan Datos</a>
+         </form>
+         <button onclick="confirmaEdicion();"class="btn_save">Guardar</button>
+         <!-- Fin Formulario-->
+
+       </div>
+
+      </div>
+
+
+      <table id="list-grados"class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="titulos_tabla">N°</th>
+                    <th class="titulos_tabla">NOMBRE</th>
+                    <th class="titulos_tabla">NIVEL</th>
+                    <th class="titulos_tabla">JORNADA</th>
+                    <th class="titulos_tabla" colspan="2">OPCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+
+              {% for grado in grupos %}
+                <tr>
+                    <td><a>{{ forloop.counter }}</a></td>
+                    <td>{{ grado.nombre }}</td>
+                    {% for nivel in niveles %}
+                      {% if  grado.nivel_id == nivel.id %}
+                        <td>{{ nivel.nombre }}</td>
+                      {% endif %}
+                    {% endfor %}
+                    <td>{{ grado.jornada }}</td>
+                    <td><a class="b_editar" onclick="editar_grado('{{ grado.id }}','{{ grado.nombre }}');" ><span class="icon-pencil"> </span>Editar</a></td>
+                    <td><a class="b_editar" onclick="delete_grado('{{ grado.id }}');"><span class="icon-cross"> </span>Borrar</a></td>
+
+                </tr>
+
+
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+  </div>
+  <div style="display:none">
+      <form action="{% url 'delete_grado' %}" method=post name="form_delete" id="form_delete" class="form_new_nivel">
+          {% csrf_token %}
+              <input type="hidden" name="id_grado_del" id="id_grado_del" value="">
+      </form>
+  </div>
+  <script type="text/javascript">
+
+      function gId(id)
+      {
+          return document.getElementById(id);
+      }
+
+      var modal = document.getElementById('modal');
+      var modal2 = document.getElementById('modal2');
+      var modal_confirmacion = document.getElementById('modal_confirmacion');
+      // Get the button that opens the modal
+      var btn = document.getElementById("btn_fold_grupo");
+
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+      var span2 = document.getElementsByClassName("close2")[0];
+
+
+      // When the user clicks on the button, open the modal
+      btn.onclick = function()
+      {
+        modal.style.display = "block";
+        //document.getElementById("Niveles").value = "0";
+      }
+
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function()
+      {
+        modal.style.display = "none";
+
+
+
+      }
+      span2.onclick = function()
+      {
+
+        modal2.style.display = "none";
+
+
+      }
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event)
+      {
+        if (event.target == modal)
+        {
+          modal.style.display = "none";
+        }
+        if (event.target == modal2)
+        {
+          modal2.style.display = "none";
+        }
+      }
+      function editar_grado(id_grado,nombre_grado) {
+        var idG = id_grado;
+        var nombre= nombre_grado;
+        modal2.style.display = "block";
+        document.getElementById("id_grado").value = idG;
+        document.getElementById("Nom_grado").value = nombre;
+
+      }
+      function delete_grado(id_grado) {
+        var idG = id_grado;
+        document.getElementById("id_grado_del").value = idG;
+        modal_confirmacion.style.display = "block";
+
+      }
+      function confirmacion() {
+          gId("form_delete").submit();
+      }
+      function cancelar() {
+        modal_confirmacion.style.display = "none";
+      }
+      function confirmaNuevo() {
+
+        if (gId("New_Grupo").value != "")
+        {
+           if (gId("Niveles").value != "0" )
+            {
+              if (gId("Jornadas").value != "0" )
+               {
+                 gId("formNew").submit();
+               }
+               else {
+                  gId("men_campo").style.display = "block";
+               }
+            }
+            else {
+              gId("men_campo").style.display = "block";
+            }
+        }
+        else {
+          gId("men_campo").style.display = "block";
+        }
+      }
+      function confirmaEdicion() {
+        if (gId("Nom_grado").value != "")
+        {
+          if (gId("Nivel").value != "0" )
+           {
+             if (gId("Jornada").value != "0" )
+              {
+                gId("formEdit").submit();
+              }
+              else {
+                gId("men_campo2").style.display = "block";
+              }
+           }
+           else {
+             gId("men_campo2").style.display = "block";
+           }
+
+        }
+        else {
+          gId("men_campo2").style.display = "block";
+        }
+      }
+  </script>
+{% endblock %}

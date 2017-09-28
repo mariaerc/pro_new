@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block titulo %} Estudiante {{ user.first_name }}  {{ user.last_name }}{% endblock %} </title>
+    <link rel ="icon" type="image/x-icon"href="/static/images/sumapaz.ico">
+    <link rel ="stylesheet" href="/static/css/style.css">
+    <link href="/static/fonts/BungeeShade-Regular.ttf" rel="stylesheet" />
+    <link href="/static/fonts/style.css" rel="stylesheet" />
+    <link href="/static/fonts/Righteous-Regular.ttf" rel="stylesheet" />
+    <link href="/static/fonts/Yesteryear-Regular.ttf" rel="stylesheet" />
+    <link href="/static/fonts/Courgette-Regular.ttf" rel="stylesheet" />
+    <script src="/static/js/jsapi.js"></script>
+    <script src="/static/js/loader.js"></script>
+
+
+</head>
+<body>
+    <header class="menu-horizontal-estudiante">
+        <div class="wrapper">
+            <div class="panel_tit">
+                <img class="img_panel"src="/static/images/sumapaz.png">
+                {% if aux == "no" %}
+                  <a class="titulo-institucion-estudiante">Institución Educativa Tecnica sumapaz</a>
+                {% else %}
+                  {% if aux == "si" %}
+                    <div class="cronometro" >
+                        <span class="icon-alarm"> </span> Tiempo :  <br><a id="Minutos">00</a><a> Min  </a><a id="Segundos">:00 </a><a>  Seg</a>
+                    </div>
+                  {% endif %}
+                {% endif %}
+            </div>
+            <div class="panel_horizontal">
+                <a  class="btns_panel" href="/logout">Salir</a>
+                <a class="btns_panel" > curso: {{ curso.nombre }}</a>
+                <a  class="btns_panel" onclick="goBack();" >{{ user.first_name }}  {{ user.last_name }}</a>
+          </div>
+        </div>
+    </header>
+    <script src="/static/js/jquery-latest.js"></script>
+    <script src="/static/js/header.js"></script>
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/plugins/morris/raphael.min.js"></script>
+{% block content %}
+  {% if mensaje != "" %}
+      <div class="contenedor">
+          <br><br><br><h1 class="tit-grados">{{ mensaje }}</h1><br><br><br>
+
+      </div>
+  {% endif %}
+
+{% endblock %}
+<div class="pie">
+     <a class="div_copy">&copy; 2017 Colegio Sumapaz Campestre .Todos los Derechos Reservados</a>.
+</div>
+
+</body>
+<script>
+    var modal_confirmacion = document.getElementById('modal_confirmacion');
+    var modal1 = document.getElementById('modal_confirmacion');
+    function gId(id)
+    {
+        return document.getElementById(id);
+    }
+    function goBack()
+    {
+        location.replace("/estudiantes?id={{ eid }}");
+    }
+
+</script>
+</html>

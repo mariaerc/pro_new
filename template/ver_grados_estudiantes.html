@@ -1,0 +1,68 @@
+{% extends 'template_docentes.html' %}
+{% block titulo %}Listado De Grados{% endblock  %}
+{% block content %}
+  <div class = "contenido_docente">
+    <h1 class="tit-grados">GRADOS ACTUALES</h1><br><br><br>
+    <div class="foldPan">
+        <a href="/ViwCargar" id="btn_fold_grupo" class="btn_fold_grupo"><span class="icon-upload2"> </span>CARGAR ESTUDIANTES</a>
+        <a href="/registro" id="btn_fold_grupo" class="btn_fold_grupo"><span class="icon-plus"> </span>NUEVO ESTUDIANTE</a>
+    </div>
+    <table id="list-estudiantes"class="table table-hover">
+          <thead>
+              <tr>
+                  <th class="titulos_tabla">N°</th>
+                  <th class="titulos_tabla">GRADOS</th>
+                  <th class="titulos_tabla">JORNADA</th>
+                  <th class="titulos_tabla">OPCION</th>
+              </tr>
+          </thead>
+          <tbody>
+
+
+          {% for grado in grupos %}
+              <tr>
+                  <td><a>{{ forloop.counter }}</a></td>
+
+
+                      <td>{{ grado.nombre }}</td>
+                      <td>{{ grado.jornada}}</td>
+
+                  <td><a class="b_editar" onclick="ver_gestudiantes('{{ grado.id }}');"><span class="icon-pencil"> </span>Ver</a></td>
+              </tr>
+            {% endfor %}
+
+
+          </tbody>
+          </tbody>
+      </table>
+      <div style="display:none">
+          <form action="{% url 'viw_estudiantes' %}" method=post name="form_viw" id="form_viw" class="form_new_nivel">
+              {% csrf_token %}
+                  <input type="hidden" name="id_grado" id="id_grado" value="">
+          </form>
+      </div>
+  </div>
+  <script type="text/javascript">
+
+      function gId(id)
+      {
+          return document.getElementById(id);
+      }
+
+      gId("btn_fold_grupo").onclick = folder;
+
+      function folder()
+      {
+          if(gId(this.id.substring(4)).style.display != 'block')
+              gId(this.id.substring(4)).style.display = 'block';
+          else
+              gId(this.id.substring(4)).style.display = 'none';
+      }
+      function ver_gestudiantes(id_grado) {
+        var idG = id_grado;
+        document.getElementById("id_grado").value = idG;
+        gId("form_viw").submit();
+      }
+
+  </script>
+{% endblock %}

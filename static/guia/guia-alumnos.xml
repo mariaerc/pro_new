@@ -1,0 +1,28 @@
+<contenido>
+<curso codigo="1" nombre="601"></curso>
+<alumno curso="1">
+    <nombre>andrea</nombre>
+    <apellidos>lopez</apellidos>
+    <documento>95122506879</documento>
+</alumno>
+<alumno curso="1">
+    <nombre>paula</nombre>
+    <apellidos>velandia</apellidos>
+    <documento>123445678912</documento>
+</alumno>
+<alumno curso="1">
+    <nombre>laura</nombre>
+    <apellidos>castañeda</apellidos>
+    <documento>95125463217</documento>
+</alumno>
+<alumno curso="1">
+    <nombre>julian</nombre>
+    <apellidos>guzman</apellidos>
+    <documento>54236506879</documento>
+</alumno>
+<alumno curso="1">
+    <nombre>felipe</nombre>
+    <apellidos>contreras</apellidos>
+    <documento>745213654852</documento>
+</alumno>
+</contenido>

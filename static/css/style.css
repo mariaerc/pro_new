@@ -1,56 +1,440 @@
+
+@font-face{
+    font-family: "Courgette";
+    src: url(/static/fonts/Courgette-Regular.ttf) format("truetype");
+
+}
+@font-face{
+    font-family: "Yesteryear";
+    src: url(/static/fonts/Yesteryear-Regular.ttf) format("truetype");
+
+}
+@font-face{
+    font-family: "Righteous";
+    src: url(/static/fonts/Righteous-Regular.ttf) format("truetype");
+
+}
+@font-face{
+    font-family: "Bungee Shade";
+    src: url(/static/fonts/BungeeShade-Regular.ttf) format("truetype");
+
+}
+@font-face{
+    font-family: "BalooTamma";
+    src: url(/static/fonts/BalooTamma-Regular.ttf) format("truetype");
+
+}
+@font-face{
+    font-family: "RammettoOne";
+    src: url(/static/fonts/RammettoOne-Regular.ttf) format("truetype");
+
+}
 *{margin: 0;
     padding: 0;
 }
 body{
-    background: #ffffff;
+    background: #EAEAEE;
 }
-header{
+::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 12px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #0685FC;
+}
+#list-grados{
+  width: 90%;
+  position: relative;
+  margin-left: 4%;
+	border: 3px solid #23527c;
+  font-size: 1em;
+  background: #fff;
+  margin-top: 5%;
+  font-weight: bold;
+  font-family: "arial";
+}
+.titulos_tabla{
+  text-align: center;
+  font-weight: bold;
+  background: #23527c;
+  color: #fff;
+  font-family: "arial";
+}
+.table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+table {
+    background-color: transparent;
+}
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+.table>thead:first-child>tr:first-child>th {
+    border-top: 0;
+}
+
+.table>thead>tr>th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #ddd;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+.modal_archivo
+{
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0,0,0); /* Fallback color */
+	background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content-archivo
+{
+
+	/* just in case there no content*/
+  text-align: center;
+	margin: 0 auto 25px;
+	margin-top: 12%;
+	background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #999;
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: 15px;
+  outline: 0;
+  -webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+  box-shadow: 0 3px 9px rgba(0,0,0,.5);
+	width: 30%;
+	height: auto;
+	padding: 63px 40px;
+}
+.etiqueta_nivel{
+  font-weight: bold;
+  font-size: 1.1em;
+}
+.btn_save{
+  text-decoration: none;
+  padding: 10px 20px;
+  line-height: normal;
+  font-weight: bold;
+  border-radius: 5px;
+  border: 2px solid #0685FC;
+  background: #fff;
+  color: #0685FC ;
+  font-size: 1.5em;
+  margin-top: 3%;
+}
+.btn_save:hover{
+    background-color: #0685FC;
+    border-color: #0685FC;
+    color: #fff;
+}
+.cronometro{
+  font-style: oblique;
+  font-family: monospace;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 1.5em;
+  width: 300px;
+  font-weight: bold;
+  #border: 2px solid #0431B4;
+  color: #fff ;
+  margin-left: 25%;
+  margin-top: 2%;
+
+
+}
+.img_temp{
+  width: 100px;
+  height: 80px
+}
+.menu-horizontal{
+    margin-top: 0;
     position: relative;
     width: 100%;
     overflow: hidden;
-    background: #52b6ec;
-    margin-bottom: 20px;
+    background: url(/static/images/10.png), #52b6ec;
+    margin-bottom: 3%;
+
 }
-.wrapper{
+.menu-horizontal-estudiante{
+  margin-top: 0;
+  position: fixed;
+  width: 100%;
+  height: 65px;
+  overflow: hidden;
+  background: url(/static/images/10.png), #52b6ec;
+  margin-bottom: 3%;
+  z-index: 10;
+  top: 0px;
+  border-bottom: 3px solid #158FD0;
+}
+.contenedor {
+    margin: 3%;
+    margin-top: 8%;
+    text-align: center;
+    padding: 2%;
     width: 90%;
-    max-width: 1000px;
-    margin: auto;
-    overflow: hidden;
+    height: auto;
+    background: url(/static/images/10.png), #90C2FC;
+    position: relative;
+    overflow: auto;
+    margin-bottom: 10%;
 }
-header .logo {
+.men_reg,
+#men_pass,
+#men_user{
+  color: #FFFFFF;
+  font-weight: bold;
+  font-family: arial;
+}
+.contenedor_examen{
+    margin: 4%;
+    margin-top: 8%;
+    margin-left: 13%;
+    text-align: center;
+    padding: 2%;
+    width: 70%;
+    height: auto;
+    #background: url(/static/images/hoja.jpg);
+    #background-size: 100% 100%;
+    background-color: #ffffff;
+    #background-size: cover;
+    #background-repeat: no-repeat;
+    background-attachment:fixed;
+    position: absolute;
+    margin-bottom: 10%;
+    overflow: auto;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    font-family:  "BalooTamma";
+    border: 3px solid #999;
+    border: 3px solid rgba(0,0,0,.2);
+    border-radius: 15px;
+    outline: 0;
+    -webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+    box-shadow: 0 3px 9px rgba(0,0,0,.5);
+}
+.text_index{
+  font-family: 'Righteous', cursive;
+  font-size: 1.2em;
+  color: #23527c;
+}
+.loading{
+  margin-top: -5%;
+  z-index: 10;
+  width: 73%;
+  text-align: center;
+  position: fixed;
+}
+.text_ex{
+  font-family: 'Righteous', cursive;
+  font-size: 1.2em;
+  color: #23527c;
+}
+.select_nivel {
+
+  height:35px;
+  padding-left: 10px;
+  padding-right: 10px;
+  overflow: auto;
+  width: 12%;
+  text-align: left;
+  background: #fff;
+  border: 1px solid #BDBDBD;
+  border-radius: 5px;
+  font-family: arial;
+  font-size: .8em;
+  cursor: pointer;
+
+}
+.mensaje_sesion{
+  width: 100%;
+  text-align: center;
+}
+.mensaje_login{
+  color: #23527c;
+  font-size: 1.5em;
+  font-weight: bold;
+  font-family: 'Righteous', cursive;
+}
+.select_nivel:hover{
+ background:#E2E8EF;
+}
+.opt-selects{
+  background: #fff;
+  cursor: pointer;
+}
+.contener_pregunta{
+  margin: 7%;
+  font-family: Arial;
+  text-align: left;
+}
+
+.div_caso{
+  font-size:1.3em;
+  font-style:oblique;
+  margin-bottom: 2%;
+
+}
+.radio_ex{
+  width: 16px;
+
+  height: 16px;
+}
+.count_num{
+  font-weight: bold;
+  font-size: 1.1em;
+}
+.div_opciones{
+  font-weight: bold;
+  font-size: 1.2em;
+  line-height: 1.3;
+
+
+}
+.div_preguntas{
+  font-size:1.2em;
+}
+.titulo_examen{
+  font-family: 'Bungee Shade', cursive;
+  font-size: 3em;
+  color: #52b6ec;
+  margin-top: 8%;
+}
+.btn_contestar:hover,
+.btn_atras:hover{
+  background-color: #0685FC;
+  font-weight: bold;
+  color: #fff;
+}
+.btn_contestar,
+.btn_atras{
+  border-radius: 5px;
+  border: 3px solid #0685FC;
+  background: #fff;
+  font-weight: bold;
+  font-size: 1.2em;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  padding-left: 25px;
+  padding-right: 25px;
+  color: #0685FC ;
+  cursor: pointer;
+  font-family:arial;
+
+}
+.btn_atras{
+  float: left;
+  margin-top: 1%;
+  margin-left: 2%;
+}
+.div_logo {
     text-align: center;
     color: white;
 
 }
-header .logo >img{
-    padding-top: 10px;
-    width: 90px;
-    height: 90px;
+.img_logo_login{
+    #padding-top: 10px;
+    width: 80px;
+    height: 80px;
 
 }
-header .tite {
+.div_tit {
     color: white;
     font-size: 35px;
-    line-height: 80px;
+    padding-top: 10px;
     text-align: center;
+    font-family: 'Courgette', cursive;
+    font-weight: bold;
 }
-header .log >img{
-    margin-top: 5px;
+.login_tit{
+  color: #fff;
+  font-family: 'Righteous', cursive;
+  font-weight: bold;
+  font-size: 2em;
+  margin-top: 15px;
+}
+.img_panel{
+    margin-top: 1px;
     float:left;
-    width:12%;
-    height: 12%;
+    width: 65px;
+    height: 65px;
+    margin-left: 6px;
 
 }
-header .log {
+#mensaje_valido{
+  font-size: 1.8em;
+  font-weight: bold;
+  color: red;
+  font-family: 'Righteous', cursive;
+}
+.panel_tit {
     float:left;
 }
-header .log > a  {
-  margin-top: 20px;
+.titulo-institucion-estudiante{
+  margin-top: 16px;
   float:left;
   color: #fff;
-  font-family:arial;
-  font-size: 20px;
-  
+  font-size: 1.6em;
+  font-weight: bold;
+  font-family: 'Righteous', cursive;
+}
+.titulo_index{
+  font-family: 'Righteous', cursive;
+  color: #fff;
+  font-size: 2.5em;
 }
 .center-block {
   display: block;
@@ -65,6 +449,58 @@ header .log > a  {
     margin-top: 100px;
     margin-bottom: 20px;
     text-align: center;
+}
+.img_mat{
+  width: 120px;
+  height: 90px;
+  cursor: pointer;
+
+}
+.mate{
+  width: 120px;
+  height: 120px;
+  border-radius: 10px 10px 10px 10px;
+  background: #E6E6E6;
+  margin: 12%;
+  text-align: center;
+  padding: 10%;
+
+}
+.titulo_prueba{
+  font-weight: bold;
+  font-size: 3em;
+  color: #fff;
+  font-family: "Bungee Shade";
+}
+.nombreMateria{
+  cursor:pointer;
+  font-weight: bold;
+}
+.mate:hover{
+  color: #2E9AFE;
+}
+#btn_agremat,
+#btn_agregrup,
+#btn_fold_exam,
+
+{
+    font-family:arial;
+    margin-top: 20px;
+    color:white ;
+    text-decoration: none;
+    padding: 10px 20px;
+    line-height: normal;
+    font-size: 12px;
+    font-weight: bold;
+    -webkit-transition: all 500ms ease ;
+    -o-transition: all 500ms ease ;
+    transition: all 500ms ease ;
+    border-radius: 50px;
+    background-color: darkcyan;
+}
+#btn_fold_grupo{
+  margin-bottom: 5%;
+  margin-top: -4%;
 }
 .contenido  button{
     font-family:arial;
@@ -82,11 +518,10 @@ header .log > a  {
     border-radius: 50px;
     background-color: darkcyan;
 }
-header .btns > a{
+.btnagre{
     margin-bottom: 10px;
     font-family:arial;
     margin-top: 20px;
-    float:right;
     display: inline-block;
     color:white ;
     text-decoration: none;
@@ -98,62 +533,86 @@ header .btns > a{
     -o-transition: all 500ms ease ;
     transition: all 500ms ease ;
     border-radius: 50px;
-    background-color: darkcyan;
+    background-color:darkcyan ;
 }
+
+.btns_panel{
+    #margin-bottom: 10px;
+    font-family:"BalooTamma";
+    #margin-top: 20px;
+    float:right;
+    display: inline-block;
+    color:white ;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 10px 10px;
+    line-height: normal;
+    font-size: 1.5em;
+    #font-weight: bold;
+    border: 10px solid transparent;
+    height: 100%;
+}
+.btns_panel:hover{
+  background: #22ABF5;
+  padding: 5px 10px;
+  border-bottom: 8px solid #158FD0;
+
+}
+.btnagre:hover,
 header .btns > a:hover{
     background: #335486;
 
 }
+
+.radio{
+    margin-top: 10px;
+    width:15px;
+    height:15px;
+    float:inherit;
+    clear: left;
+}
+
 header .contenido{
     margin-bottom: 2%
 }
-.header2{
-    position: fixed;
-    height: 80px;
-}
-.header2 .logo{
-    line-height: 100px;
-    font-size: 30px;
-}
-.header2 nav{
-    line-height: 100px;
-}
-.header2 .tite{
-    line-height: 100px;
-    font-size: 30px;
-}
 
-@media screen and (max-width: 1100px){
-    header .logo,
-    header nav{
-        width: 100%;
-        text-align: center;
-        line-height: 100px;
-    }
-    .header2{
-        height: auto;
-    }
-    .header2 .logo,
-    .header2 nav {
-        line-height: 50px;
-    }
-
-}
 .formlogin{
     position: relative;
     width:400px;
-    height:410px;
-    background-color:#30A3FB;
+    height:auto;
+    background-color:#52b6ec;
     text-align: center;
-    text-center: auto;
     border-radius:20px;
+    box-shadow: inset 0 0 10px 10px #35A0DA ;
     margin: 0 auto;
+    padding-top: 5%;
+    padding-bottom: 4%;
+    margin-bottom: 5%;
+}
+.text_user{
+  width:75%;
+  margin-top: 5%;
+  height: 20px;
+  padding: 6px 12px;
+  font-size: .9em;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
 .formlogin h1,
-.formregistro h1{
+.formvis h2{
     color:white;
 }
-.formlogin input{
+.formlogin .form{
     width:280px;
     height:35px;
     padding:0px 10px;
@@ -163,7 +622,10 @@ header .contenido{
     border: 4px;
     box-shadow: inset 0 0 20px darkgray;
 }
-.formregistro input {
+
+.txt_registro,
+.formvis input,
+.formvis textarea {
     width:280px;
     height:27px;
     padding:0px 10px;
@@ -173,8 +635,31 @@ header .contenido{
     border: 4px;
     box-shadow: inset 0 0 20px darkgray;
 }
-.formlogin button,
-.formregistro button {
+.btn_login{
+  text-decoration: none;
+  background-color: #031B4B;
+  text-align:center;
+  font-family:arial;
+  color:white;
+  font-weight:bold;
+  font-size:1.2em;
+  width: 135px;
+  margin:15px 15px 20px 15px;
+  height:50px;
+  border: 2px solid #021B4B;
+
+  border-radius:10px;
+  cursor: pointer;
+}
+.btn_login:hover{
+  background-color: #14284E;
+  border: 3px solid #14284E;
+  font-size: 1.3em;
+
+}
+.formvis button{
+
+    text-decoration: none;
     background-color: #0B2864;
     text-align:center;
     font-family:arial;
@@ -188,8 +673,8 @@ header .contenido{
     border-radius:10px;
 }
 
-.formlogin button:hover,
-.formregistro button:hover,
+.formvis button:hover,
+.contenedor button:hover,
 .contenido .principal button .active{
     background-color: #9FA5A9;
     -webkit-box-shadow: none;
@@ -197,16 +682,20 @@ header .contenido{
     box-shadow: none;
 }
 
-.formlogin > img {
+.img_log{
     width:120px;
     height:88px;
     margin:15px;
 }
 
-.formregistro{
+.img_for_exam{
+  width: 320px;
+    height: 250px;
+}
+.formvis{
     position: relative;
     width:500px;
-	height:560px;
+	height:500px;
     background-color:#30A3FB;
     text-align: center;
     text-center: auto;
@@ -214,27 +703,15 @@ header .contenido{
     margin: 0 auto;
 }
 
-.formregistro .radio{
-    margin-left: 50px;
-    width:20px;
-    height:20px;
-    float:left;
-    clear: left;
-    background-color: azure;
-    font-weight:bold;
-    
-    
-}
 .formregistro h2{
     margin-top: 10px;
     text-align: left;
     font-size:15pt;
 }
-.formlogin label,
-.formregistro label{
+.formlogin label{
     float:left;
     clear: left;
-    margin: 10px;
+    margin: 10px ;
     padding: 0px 10px;
     width:95px;
     text-align: center;
@@ -243,8 +720,23 @@ header .contenido{
     font-family: sans-serif;
     font-size:12pt;
 }
+.label_registro,
+.formvis label{
+    float:left;
+    clear: left;
+    margin: 10px;
+    padding: 0px 10px;
+    width:95px;
+    text-align: left;
+    margin-left: 3%;
+    font-weight:bold;
+    color: lemonchiffon;
+    font-family: sans-serif;
+    font-size:12pt;
+}
 
-.formregistro button
+
+.formvis button
 {
     background-color: #0B2864;
     text-align:center;
@@ -259,35 +751,62 @@ header .contenido{
     border-radius:10px;
 }
 
-.formregistro > img {
+.img_registro {
     width:100px;
     height:88px;
     margin:10px;
 }
 
 
-.pie {
-margin-top: 100px;
-width: 100%;
-height: 15%;
-background-color: #30A3FB;
-line-height: 100px;  
-text-align: center;
+.pie
+{
+    margin-bottom: 0;
+    width: 100%;
+    height: 7%;
+    background: url(/static/images/10.png), #52b6ec;
+    line-height: 50px;
+    text-align: center;
+    margin-top: 5%;
+    bottom:0px;
+    position: fixed;
+    z-index: -5;
 }
-.pie,
-.pied
-> a{
-font-weight:bold;
-font-size:12pt;
-color: white;
-margin-top: 2%;
-margin-bottom: 2%; 
+.div_copy{
+  font-size:1em;
+  color: white;
+  font-family: "BalooTamma";
+}
+.pie_doc
+{
+
+    margin-bottom: 0;
+    width: 100%;
+    height: 10%;
+    background: url(/static/images/10.png), #52b6ec;
+    line-height: 55px;
+    text-align: center;
+    font-weight:bold;
+    font-size:10pt;
+    color: white;
+    position: fixed;
+    z-index: -1
+
+
+
+}
+.pied > a
+{
+    font-weight:bold;
+    font-size:12pt;
+    color: white;
+    margin-top: 2%;
+    margin-bottom: 2%;
 }
 .pied{
 margin-top: 180px;
 width: 100%;
 height: 15%;
-background-color: #30A3FB;
+background: url(/static/images/10.png), #52b6ec;
 line-height: 100px;
 text-align: center;
 }
@@ -297,20 +816,36 @@ text-align: center;
     text-align: center;
 }
 
-#Niveles {
+
+#Examen{
     color: white;
-    width:10%;
+    width:13%;
     height:30px;
-    /*padding:0% 10%;*/
+    padding:0px 10px;
     text-align:center;
     background-color: darkcyan ;
     border-radius:10px;
 }
+.formregistro{
+    position: relative;
+    width:500px;
+	  height:auto;
+    background-color:#30A3FB;
+    text-align: center;
+    text-center: auto;
+    border-radius:20px;
+    margin: 0 auto;
+    margin-bottom: 10%;
+    padding-bottom: 2%;
+}
 
+.Grados,
 #Grados,
+#Casos,
+#tipOp,
 #Caso_ID{
     color: white;
-    width:10%;
+    width:12%;
     height:30px;
     padding:0px 10px;
     text-align:center;
@@ -318,6 +853,15 @@ text-align: center;
     border-radius:10px;
 }
 
+.option{
+    color: white;
+    width:9%;
+    height:30px;
+    padding:0px 10px;
+    text-align:center;
+    background-color: darkcyan ;
+    border-radius:10px;
+}
 #Materias {
     color: white;
     width:10%;
@@ -330,8 +874,23 @@ text-align: center;
 .col-sm-12 {
     margin-top: 5%;
 }
-.contenido .Nopciones {
-    width:100px;
+
+.nom{
+    float: left;
+    text-align: center;
+}
+#enuOp{
+    width:350px;
+    height:30px;
+    padding:0px 10px;
+    text-align:center;
+    margin:10px 30px;
+    background-color: azure;
+    border: 4px;
+    box-shadow: inset 0 0 20px darkgray;
+}
+.contenido .tex_casos {
+    width:350px;
     height:30px;
     padding:0px 10px;
     text-align:center;
@@ -341,13 +900,119 @@ text-align: center;
     box-shadow: inset 0 0 20px darkgray;
 }
 
-.contenido input{
-    width:350px;
-    height:100px;
-    padding:0px 10px;
+
+
+.contenedor button{
+    background-color:#30A3FB ;
     text-align:center;
-    margin:10px 30px;
-    background-color: azure;
-    border: 4px;
-    box-shadow: inset 0 0 20px darkgray;
+    font-family:arial;
+    color:white;
+    font-weight:bold;
+    font-size:12pt;
+    width: 135px;
+    margin:15px 15px 20px 15px;
+    height:50px;
+    border:2px ;
+    border-radius:10px;
+}
+.cont{
+    font-family: "Century Gothic";
+    margin: 5%;
+    font-size: 15pt;
+    text-align: center;
+    background-color: #52b6ec;
+    position: relative;
+    margin-top: 8%;
+    padding-bottom: 5%;
+}
+.text_res{
+  font-family: 'Righteous', cursive;
+  color: #fff;
+  font-size: 1.3em;
+}
+#chart_div{
+  margin-top: 5%;
+  width: 70%;
+  text-align: center;
+  position: relative;
+  margin-left: 29%;
+  margin-bottom: 3%;
+}
+.btn_cont{
+  border-radius: 7px;
+  border: 4px solid #0685FC;
+  background: #fff;
+  padding-top: 7px;
+  font-family: 'Righteous', cursive;
+  padding-bottom: 7px;
+  padding-left: 8px;
+  padding-right: 8px;
+  color: #0685FC ;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+.btn_cont:hover{
+  background-color: #0685FC;
+  font-weight: bold;
+  color: #fff;
+}
+.tit-grados{
+  color: #23527c;
+  font-family: 'Righteous', cursive;
+  font-weight: bold;
+}
+.cont h1{
+    font-size: 35pt;
+    font-family: "Arial";
+    color: white;
+}
+.contenedor-tabla{
+
+    display: table;
+
+}
+
+.contenedor-fila{
+
+    display: table-row;
+
+}
+
+.contenedor-columna{
+
+    display: table-cell;
+
+}
+#list-categorias{
+  width: 94%;
+  margin: 3%;
+  padding-left: 5%;
+  padding-right: 5%;
+  margin-top: 5%;
+}
+
+.slogan{
+    font-size: 35pt;
+    font-family:  "serif";
+    font-weight: bold;
+    color: #088A85;
+}
+.cole{
+    width: 335px;
+    height: 280px;
+}
+
+.opc_new{
+    width: 30%;
+    height: 100px;
+    border: 1px solid #0B2864;
+    overflow: auto;
+}
+
+.caso{
+    display: inline-block;
+    width: 35%;
+    height: 100px;
+    border: 1px solid #0B2864;
+    overflow: auto;
 }

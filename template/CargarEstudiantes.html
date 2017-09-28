@@ -1,0 +1,179 @@
+{% extends 'template_docentes.html' %}
+{% block titulo %}Cargar Estudiantes{% endblock  %}
+{% block content %}
+
+    {% csrf_token %}
+    <div class="contenido_docente">
+
+        <h1 class="tit-grados">CARGAR ESTUDIANTES</h1>
+        {% if mess != "" %}
+          <a class="user_dupl1">!Hubo un error al procesar el archivo, por favor revise el contenido¡</a>
+        {% endif %}
+        <div id="carga" style="display: none">
+          <div id="cascara" align="left">
+            <div id="barra" align="left"></div>
+          </div>
+          <a id="mensajeCascara">Cargando... </a>
+        </div>
+        <br><br><div class="foldPan">
+            <a id="grupo" class="btn_fold_grupo" onclick="descargar_guia();"value="" ><span class="icon-folder-download"> </span>  Descargar Guia</a>
+
+        </div>
+        <div id="modal_archivo" class="modal_archivo">
+
+          	  <!-- Modal content -->
+          <div class="modal-content-archivo">
+                <a class="etiqueta_nivel">Archivo Invalido</a><br>
+                <button onclick="recarga();" class="btn_save">Aceptar</button>
+          </div>
+        </div>
+
+
+        <div class="mensaje_cargar">
+          <a>Apreciado usuario seleccione el archivo de extencion .xlsx que contenga los
+            datos necesarios y en el formato establecido para proceder a guardar correctamente en la base de datos.<br>
+            Tenga en cuenta que si no tiene una idea clara de cual es el formato establecido puede descargar
+            la guia, la cual es un ejemplo de como debe estar el contenido del archivo para ser cargado exitosamente</a><br>
+        </div><br><br><br>
+        <form id="exito" action="{% url 'LeerAlumnos' %}" method="POST" name="formularioagre" >
+            {% csrf_token %}
+            <select class="select_admin" id="Grado" name="Grado">
+                    <option class="opt-selects" value="0">Escoja un grado</option>
+                    {% for row in grados %}
+                       <option class="opt-selects"  value="{{row.id }}">{{ row.nombre }}  {{ row.jornada }} </option>
+
+                    {% endfor %}
+                </select>
+        </form>
+        <input type="hidden" id="file_extension" name="file_extension"/>
+        <input type="hidden" id="name_file" name="name_file"/>
+
+        <a id="mensaje_Grado" style="display:none">Seleccione un grado </a>
+        <a id="mensaje_valido" style="display:none">Seleccione un archivo xml por favor</a>
+        <a id="subido" class="mensaje_valido" style="display:none">Archivo cargado con exito!</a>
+        <input type="file" name="archivo_adjunto" id="archivo_adjunto" onchange="cargar_archivo();"   style="display: none" />
+        <button class="btn_fold_grupo" id="a_input" onclick="document.getElementById('archivo_adjunto').click();" style = "margin-left:-30%;margin-top:7%;margin-bottom:5%;cursor: pointer;"><span class="icon-cloud-upload"> </span> Selecionar Archivo</button>
+        <input type="hidden" id="arch" name="arch"/><br>
+        <button class="btn_fold_grupo" id="go" onclick="validar_form()"; style="cursor: pointer;"><span class="icon-box-remove"> </span>Cargar</button>
+        </div>
+<script>
+      var archivoB64;
+      var fila = -1;
+      var	$tam;
+      function gId(id)
+      {
+          return document.getElementById(id);
+      }
+      var modal = document.getElementById('modal');
+      var modal_archivo = document.getElementById('modal_archivo');
+      // Get the button that opens the modal
+      var btn = document.getElementById("btn_fold_grupo");
+
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+
+
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event)
+      {
+        if (event.target == modal)
+        {
+          modal.style.display = "none";
+        }
+
+      }
+      function descargar_guia() {
+        window.open("http://"+location.host+"/static/guia/listado_ejemplo.xlsx")
+      }
+    function cargar_archivo(){
+        var archivo = document.querySelector('input[type=file]').files[0];
+        var name_file = document.getElementById('archivo_adjunto').files[0].name;
+
+        var e = name_file.split('.').pop();
+
+        if (e == "xlsx")
+        {
+          var reader = new window.FileReader();
+          reader.readAsDataURL(archivo);
+          reader.onloadend = function() 	{
+              archivoB64 = reader.result;
+              console.log(archivoB64);
+              gId("arch").value = archivoB64;
+              gId("file_extension").value = name_file
+
+          }
+        }
+        else
+        {
+          modal_archivo.style.display = "block";
+        }
+    }
+
+    function validar_form() {
+
+      var a = gId("archivo_adjunto").value;
+
+      if (a != "")
+      {
+        if (gId("Grado").value != "0") {
+            env();
+        }
+        else {
+          gId("mensaje_Grado").style.display = "block";
+        }
+
+      }
+      else {
+        gId("mensaje_valido").style.display = "block";
+      }
+    }
+    function env(){
+      rec(archivoB64);
+    }
+
+    function rec(r)
+    {
+        var ext = gId("file_extension").value;
+        var e = ext.split('.').pop();
+        gId("name_file").value = ("alumnos"+"."+e);
+        window.scrollTo(0,0)
+        gId("mensajeCascara").innerHTML="Cargando...";
+
+        document.getElementById("carga").style.display = "block"
+        document.getElementById("cascara").style.display = "block"
+        document.getElementById("barra").style.display = "block"
+
+        partialClear()
+        upName = gId("name_file").value.toString();
+        upData = r;
+        $tam = upData.length;
+        //upUrl = 'http://172.18.112.222:9090/archivo';
+        upUrl = 'http://'+location.host+'/archivo';
+        console.log(upUrl);
+        upAction = progreso;
+        partialUpload('');
+    }
+
+    function progreso()
+    {
+        var pro = ((($tam-upData.length)/$tam)*100).toFixed(0)
+        gId("barra").style.width = pro+"%";
+        console.log(pro);
+
+        if(upFin == 1)
+        {
+          gId("subido").style.display = "block";
+          hide('cascara');
+          setTimeout(function(){ gId("exito").submit(); }, 2000);
+          gId("carga").style.display = "none";
+
+        }
+    }
+
+    function recarga() {
+      location.reload();
+
+    }
+  </script>
+{% endblock %}

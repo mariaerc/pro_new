@@ -1,0 +1,240 @@
+{% extends 'template_estudiante1.html' %}
+{% block titulo %}Examenes{% endblock  %}
+{% block content %}
+
+    {% csrf_token %}
+
+    <div class="contenedor_examen">
+      <button id="Volver" class="btn_atras" onclick="goBack();">Atras</button>
+      <h1 class="titulo_examen">Examen de  {{ mater }}</h1>
+      <div id="cargando" class="loading" style="display:none">
+        <img src ="/static/images/loading.gif"><br>
+      </div>
+      <div class="contener_pregunta">
+
+        <div id="modal_confirmacion" class="modal_archivo">
+
+              <!-- Modal content -->
+          <div class="modal-content-archivo">
+                <a class="etiqueta_nivel">Te quedan 5 minutos para terminar tu examen</a><br>
+                <img class="img_temp" src="/static/images/giphy.gif"><br/><br/><br/>
+                <button onclick="cerrar();" class="btn_save">Aceptar</button>
+          </div>
+        </div>
+        <div id="modal_aviso" class="modal_archivo">
+
+              <!-- Modal content -->
+          <div class="modal-content-archivo">
+                <a class="etiqueta_nivel">!No has contestado todas las preguntas¡</a><br>
+                <img class="img_temp" src="/static/images/tem.gif"><br/>
+                <button onclick="cerrar2();" class="btn_save">Aceptar</button>
+          </div>
+        </div>
+            {% for e in preguntas %}
+
+                {% if e.caso != '' %}
+                    <a class="div_caso">{{ e.caso }}</a><br/><br/><br/>
+                {% endif %}
+            <div class="div_preguntas">
+
+                <a class="count_num">{{ forloop.counter }} )   </a> {{ e.pregunta }}<br/><br/><br/>
+            </div>
+            {% if e.imagen != '' %}
+                <img class="img_for_exam" src="/static/documentos/{{ e.imagen }}"><br/><br/><br/>
+
+            {% endif %}
+            <div class="div_opciones" style="text-align:left;margin-left:5%;">
+              {% for o in e.opciones %}
+
+                  <input class="radio_ex" id="P_{{ e.id }}" type="radio" name="P_{{ e.id }}" value="{{ o.id }}"><a>{{ o.tag }}. {{ o.enu }} </a></br>
+
+              {% endfor %}
+            </div><br/><br/><br/>
+
+            {% endfor %}
+
+          </div>
+
+
+
+      	  <a id="mensaje_valido" style="display:none;">!No has contestado todas las preguntas¡</a><br>
+          <button id="Volver" class="btn_contestar" onclick="cont();">CONSTESTAR</button>
+        <input type="hidden" id="list_pre" name="list_pre"/>
+        <form action="{% url 'ExamenTerminado' %}" id="formTerm" method= 'POST' name="formTerm">
+            {% csrf_token %}
+            <input id ="id_estu" name="id_estu" type="text" style=" display:none;"value="{{ eid }}" />
+            <input id ="id_exa" name="id_exa" type="text" style=" display:none;"value="{{ exa }}" />
+            <input  type="text" style=" display:none;" name="fpresentado" id="fpresentado">
+        </form>
+    </div>
+
+
+
+    <script type="text/javascript">
+        preg = []
+        {% for e in preguntas %}
+            preg.push({{ e.id }});
+        {% endfor %}
+        var modal_men = document.getElementById('modal_aviso');
+        function gId(id)
+        {
+            return document.getElementById(id);
+        }
+
+        function cont()
+        {
+          var flag = true;
+          var pids = "{{ pid }}";
+          pids = pids.split(",");
+          for(var i = 0; i < pids.length; i++)
+          {
+            var radios = document.getElementsByName("P_"+pids[i]);
+            var tfla = false;
+
+            for(var j = 0; j < radios.length; j++)
+            {
+              if(radios[j].checked)
+              {
+                tfla = true;
+                break;
+              }
+
+            }
+
+            if(!tfla)
+            {
+              flag = false;
+              break;
+            }
+          }
+
+          if(flag)
+          {
+            var data = new Date();
+            var a = data.getFullYear();
+            var m = data.getMonth();
+            var mes = m+1;
+            var d = data.getDate();
+            gId("fpresentado").value = (a+"-"+mes+"-"+d);
+
+            goSave()
+          }
+          else
+          {
+          //  gId("mensaje_valido").style.display = "block";
+            //document.getElementById("mensaje_valido").focus();
+            modal_men.style.display = "block";
+          }
+
+
+        }
+
+        function goBack()
+        {
+            location.replace("/estudiantes?id={{ eid }}");
+        }
+        function cerrar2() {
+          modal_men.style.display = "none";
+        }
+        function csrfSafeMethod(method)
+        {
+            return(/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        function hub() {
+
+          var preguntas = [];
+          for(var  i = 0; i < preg.length; i++)
+          {
+            var rad = document.getElementsByName("P_"+preg[i]);
+
+
+            for(var j = 0; j < rad.length; j++)
+            {
+              if(rad[j].checked)
+              {
+
+                //alert(preg[i]);
+                //alert(rad[j].value);
+                var tmp = {
+                    "pregunta": preg[i],
+                    "opcion": rad[j].value
+
+                };
+
+                preguntas.push(tmp)
+              }
+            }
+          }
+        }
+        function goSave()
+        {
+            var token = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+
+            var preguntas = [];
+            for(var  i = 0; i < preg.length; i++)
+            {
+              var rad = document.getElementsByName("P_"+preg[i]);
+
+
+              for(var j = 0; j < rad.length; j++)
+              {
+                if(rad[j].checked)
+                {
+
+                  //alert(preg[i]);
+                  //alert(rad[j].value);
+                  var tmp = {
+                      "pregunta": preg[i],
+                      "opcion": rad[j].value
+
+                  };
+
+                  preguntas.push(tmp)
+                }
+              }
+            }
+
+            $.ajaxSetup({
+                beforeSend:function(xhr, settings){
+                    if(!csrfSafeMethod(settings.type) && !this.crossDomain)
+                    {
+                        xhr.setRequestHeader("X-CSRFToken", token);
+                    }
+                }
+            });
+
+           $.ajax(
+                   {
+                        data:
+                            {
+                                'estudiante':{{ eid }},
+                                'examen': {{ exa }},
+                                'preguntas': JSON.stringify(preguntas)
+                            },
+
+             url: 'test',// la URL para la petición
+             type: 'POST', // especifica si será una petición POST o GET
+             success : function(data)
+             {    // código a ejecutar si la petición es satisfactoria;
+                 if(data['estado'] == 'OK')
+                         location.reload();
+                 //else
+                  //  alert(data['estado'])
+             }
+            });
+
+            gId("cargando").style.display = "block";
+            setTimeout(envform, 3000);
+
+
+
+        }
+        function envform()
+        {
+            gId("formTerm").submit();
+            gId("cargando").style.display = "none";
+
+        }
+
+    </script>
+{% endblock %}

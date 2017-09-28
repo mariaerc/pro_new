@@ -1,0 +1,321 @@
+{% extends 'template_docentes.html' %}
+{% block titulo %}Listado Estudiantes{% endblock  %}
+{% block content %}
+  <div class = "contenido_docente">
+    <h1 class="tit-grados">CREAR PREGUNTA</h1>
+    <div id="carga2" style="display: none">
+      <div id="cascara" align="left">
+        <div id="barra" align="left"></div>
+      </div>
+      <a id="mensajeCascara">Cargando... </a>
+    </div>
+      <div class="formEditarPregunta">
+
+          <form action="{% url 'SavePregunta' %}" method=post name="EditPre" id="EditPre" >
+                  {% csrf_token %}
+                  <div>
+                    <a class="label_pregunta2">Nivel:</a>
+                    <select class="select_admin" id="Niveles" name="Niveles" required>
+                            <option class="opt-selects" value="0">Seleccione</option>
+                            {% for row in niveles %}
+                               <option class="opt-selects"  value="{{row.id }}">{{ row.nombre }} </option>
+
+                            {% endfor %}
+                        </select>
+                        <a class="label_pregunta2"> Materia:</a>
+                        <select class="select_admin" id="Materias" name="Materias" required>
+                            <option class="opt-selects" value="0">Seleccione</option>
+                            {% for row in materias %}
+                               <option class="opt-selects"  value="{{ row.id }}"> {{ row.nombre }} </option>
+                            {% endfor %}
+                        </select>
+                        <br />
+                  </div>
+                      <div>
+                        <a class="label_pregunta"> Enunciado:</a>
+                        <textarea class = "text_preguntaEditar" type="text" name="enunciado"  id="enunciado" required></textarea>
+                      </div><br>
+                      <div>
+                          <a class="label_pregunta">Opcion 1: </a>
+                          <input type="text" name="opt1" id="opt1" class="Nopciones2" value="" required>
+                          <a class="label_pregunta2"> Tipo:  </a>
+                            <select class="select_admin2" id="t1" name="t1" required>
+                                        <option class="opt-selects" value="0"></option>
+                                        <option class="opt-selects" value="V">V</option>
+                                        <option class="opt-selects" value="F">F</option>
+                                </select><br><br>
+                          <a class="label_pregunta">Opcion 2: </a>
+                          <input type="text" name="opt2" id="opt2" class="Nopciones2" value="" required>
+                          <a class="label_pregunta2"> Tipo:  </a>
+                            <select class="select_admin2" id="t2" name="t2" required>
+                                        <option class="opt-selects" value="0"></option>
+                                        <option class="opt-selects" value="V">V</option>
+                                        <option class="opt-selects" value="F">F</option>
+                                </select><br><br>
+                          <a class="label_pregunta">Opcion 3: </a>
+                          <input type="text" name="opt3" id="opt3" class="Nopciones2"value="" required>
+                          <a class="label_pregunta2"> Tipo:  </a>
+                            <select class="select_admin2" id="t3" name="t3" required>
+                                        <option class="opt-selects" value="0"></option>
+                                        <option class="opt-selects" value="V">V</option>
+                                        <option class="opt-selects" value="F">F</option>
+                                </select><br><br>
+                          <a class="label_pregunta">Opcion 4: </a>
+                          <input type="text" name="opt4" id="opt4" class="Nopciones2"value="" required>
+                          <a class="label_pregunta2"> Tipo:  </a>
+                            <select class="select_admin2" id="t4" name="t4" required>
+                                        <option class="opt-selects" value="0"></option>
+                                        <option class="opt-selects" value="V">V</option>
+                                        <option class="opt-selects" value="F">F</option>
+                                </select><br><br>
+                      </div><br><br>
+                      <div>
+
+                          <a class="btn_fold_grupo" id="adj_caso" onclick="adjcaso()"; style="cursor: pointer;float:left">Añadir Caso</a><br><br><br>
+                          <div id="New_caso" style="display:none" >
+                            <a  class="label_pregunta">Nombre:</a><input type="text" name="nom_caso" id="nom_caso" class="Nopciones2"value="" required><br><br>
+                            <a  class="label_pregunta">Enunciado:</a>
+                            <textarea class = "text_preguntaEditar" type="text" name="caso_enunciado_nuevo"  id="caso_enunciado_nuevo" required ></textarea><br>
+                          </div>
+                          <textarea style="display:none" class = "text_preguntaEditar" type="text" name="caso_enunciado"  id="caso_enunciado"></textarea><br>
+
+                      </div>
+
+                      <input type="hidden"  id="id_pregunta" name="id_pregunta" value="{{ pregunta.id }}"/>
+                      <input type="hidden" id="caso_nuevo" name="caso_nuevo"/>
+                      <input type="hidden" id="name_file" name="name_file"/>
+                      <input type="hidden" id="file_extension" name="file_extension"/>
+                      <textarea id ="area" name="area" style=" display:none;"></textarea>
+              </form>
+              {% if pregunta.imagen == None %}
+                  <a class="label_pregunta">Adjuntar imagen a la pregunta</a><br><br><br>
+                  <input type="file" name="archivo_adjunto" class="ArchivoNew" id="archivo_adjuntoNew" onchange="cargar_archivoNew();"/>
+              {% else %}
+                  <div>
+                    <a class="label_pregunta">Imagen Actual:</a><br><br>
+                    <img onclick="ver_imagen('{{ pregunta.imagen }}')"class="img_for_edit" src="/static/documentos/{{ pregunta.imagen }}">
+                  </div><br>
+                  <div>
+                    <a class="label_pregunta">Cambiar imagen</a><br><br>
+                    <input type="file" name="archivo_adjunto" id="archivo_adjuntoOld" class="ArchivoOld" onchange="cargar_archivo();"/>
+                  </div>
+
+              {% endif %}
+              <input type="hidden" id="arch" name="arch"/><br>
+              <a id="mensaje_valido" style="display:none">Faltan elementos por completar</a>
+              <a id="mensaje_valido2" style="display:none">Hay un error en los tipos de opciones, verifique por favor.</a>
+              <a id="mensaje_valido3" style="display:none">Solo una opcion puede ser verdadera, verifique por favor.</a>
+
+              <button class="btn_fold_grupo" id="go" onclick="valopt()"; style="cursor: pointer;">Guardar Cambios</button>
+          </div>
+  </div>
+  <script type="text/javascript">
+      var archivoB64;
+      var fila = -1;
+      var	$tam;
+      opt = []
+      {% for o in opciones %}
+          opt.push({{ o.id }});
+      {% endfor %}
+      function gId(id)
+      {
+          return document.getElementById(id);
+      }
+      function adjcaso() {
+        gId("adj_caso").style.display = "none";
+        gId("New_caso").style.display = "block";
+      }
+      function ver_imagen(imagen) {
+        var img = imagen
+        var urli = "http://192.168.1.33:9090/static/documentos/"+imagen;
+        window.open(urli)
+      }
+      function cargar_archivo(){
+          var archivo = document.querySelector('.ArchivoOld').files[0];
+          var name_file = document.getElementById('archivo_adjuntoOld').files[0].name;
+
+          var e = name_file.split('.').pop();
+          var reader = new window.FileReader();
+          reader.readAsDataURL(archivo);
+          reader.onloadend = function() 	{
+              archivoB64 = reader.result;
+              console.log(archivoB64);
+              gId("arch").value = archivoB64;
+              gId("file_extension").value = name_file
+
+          }
+      }
+      function cargar_archivoNew(){
+          var archivo = document.querySelector('.ArchivoNew').files[0];
+          var name_file = document.getElementById('archivo_adjuntoNew').files[0].name;
+
+          var e = name_file.split('.').pop();
+          var reader = new window.FileReader();
+          reader.readAsDataURL(archivo);
+          reader.onloadend = function() 	{
+              archivoB64 = reader.result;
+              console.log(archivoB64);
+              gId("arch").value = archivoB64;
+              gId("file_extension").value = name_file
+
+          }
+      }
+        function valopt() {
+          var t1 = gId("t1").value;
+          var t2 = gId("t2").value;
+          var t3 = gId("t3").value;
+          var t4 = gId("t4").value;
+          opciones = [];
+          cnta = 0;
+          opciones.push(t1,t2,t3,t4);
+
+          for(var  i = 0; i < opciones.length; i++)
+          {
+
+              if (opciones[i] == "V"){
+                  cnta =cnta+1;
+              }
+          }
+          if (cnta == 1){
+            validar_form();
+          }
+          else
+          {
+              if (cnta == 0){
+                if(gId("mensaje_valido3").style.display=="block"){
+                  gId("mensaje_valido3").style.display="none"
+                }
+                gId("mensaje_valido2").style.display="block";
+              }
+              else {
+                if(gId("mensaje_valido2").style.display=="block"){
+                  gId("mensaje_valido2").style.display="none"
+                }
+                gId("mensaje_valido3").style.display="block";
+              }
+
+          }
+        }
+        function validar_form() {
+          var enunciado = gId("enunciado").value;
+          var niveles = gId("Niveles").value;
+          var materias = gId("Materias").value;
+          var opt1 = gId("opt1").value;
+          var opt2 = gId("opt2").value;
+          var opt3 = gId("opt3").value;
+          var opt4 = gId("opt4").value;
+          var t1 = gId("t1").value;
+          var t2 = gId("t2").value;
+          var t3 = gId("t3").value;
+          var t4 = gId("t4").value;
+
+          if (enunciado != "" ){
+            if (niveles != "0"){
+              if (materias != "0"){
+                if (opt1 != "" && opt2 != "" && opt3 != "" && opt1 != "" && t1 != "0" && t2 != "0" && t3 != "0" && t4 != "0"){
+
+
+                      env();
+                }
+                else {
+                  if(gId("mensaje_valido2").style.display=="block" || gId("mensaje_valido3").style.display=="block"){
+                    gId("mensaje_valido2").style.display="none"
+                    gId("mensaje_valido3").style.display="none"
+                  }
+                  gId("mensaje_valido").style.display="block";
+                }
+              }
+              else {
+                if(gId("mensaje_valido2").style.display=="block" || gId("mensaje_valido3").style.display=="block"){
+                  gId("mensaje_valido2").style.display="none"
+                  gId("mensaje_valido3").style.display="none"
+                }
+                gId("mensaje_valido").style.display="block";
+              }
+            }
+            else {
+              if(gId("mensaje_valido2").style.display=="block" || gId("mensaje_valido3").style.display=="block"){
+                gId("mensaje_valido2").style.display="none"
+                gId("mensaje_valido3").style.display="none"
+              }
+              gId("mensaje_valido").style.display="block";
+            }
+          }
+          else {
+            if(gId("mensaje_valido2").style.display=="block" || gId("mensaje_valido3").style.display=="block"){
+              gId("mensaje_valido2").style.display="none"
+              gId("mensaje_valido3").style.display="none"
+            }
+            gId("mensaje_valido").style.display="block";
+          }
+
+
+        }
+        function env(){
+
+          gId("area").value += gId("opt1").value+":"+gId("t1").value+";"+gId("opt2").value+":"+gId("t2").value+";"+gId("opt3").value+":"+gId("t3").value+";"+gId("opt4").value+":"+gId("t4").value+";";
+
+
+          if(gId("arch").value != "")
+          {
+            data_time();
+            rec(archivoB64);
+          }
+          else {
+            gId("EditPre").submit();
+          }
+        }
+        function data_time(){
+          var ext = gId("file_extension").value;
+          var e = ext.split('.').pop();
+          var data = new Date();
+          var a = data.getFullYear();
+          var m = data.getMonth();
+          var mes = m+1;
+          var d = data.getDate();
+          var h = data.getHours();
+          var min = data.getMinutes();
+          var s = data.getSeconds();
+          gId("name_file").value = ("P"+a+mes+d+h+min+s+"."+e);
+          //gId("name_file").value = ("pregu"+"."+e);
+      }
+        function rec(r)
+        {
+            window.scrollTo(0,0)
+            gId("mensajeCascara").innerHTML="Cargando...";
+
+            document.getElementById("carga2").style.display = "block"
+            document.getElementById("cascara").style.display = "block"
+            document.getElementById("barra").style.display = "block"
+
+            partialClear()
+            upName = gId("name_file").value.toString();
+            upData = r;
+            $tam = upData.length;
+            //upUrl = 'http://172.18.112.219:9090/archivo';
+            upUrl = 'http://192.168.1.33:9090/archivo';
+            console.log(upUrl);
+            upAction = progreso;
+            partialUpload('');
+        }
+
+        function progreso()
+        {
+            var pro = ((($tam-upData.length)/$tam)*100).toFixed(0)
+            gId("barra").style.width = pro+"%";
+            console.log(pro);
+
+            if(upFin == 1)
+            {
+              hide('cascara');
+              gId("EditPre").submit();
+              gId("carga2").style.display = "none";
+
+            }
+        }
+
+
+
+
+  </script>
+{% endblock %}

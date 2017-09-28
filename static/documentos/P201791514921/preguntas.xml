@@ -1,0 +1,36 @@
+<contenido>
+<caso codigo="1" nombre="logaritmos">
+A mí me gusta el estudio, pero lo que más me gusta es jugar. Ahora me
+gustan mucho las matemáticas porque la profesora Carmen hace las
+clases jugando. Primero jugamos y jugamos por horas los juegos que
+ella trae y luego vamos comprendiendo cómo funcionan: así descubri-
+mos las matemáticas escondidas en ellos.
+</caso>
+
+<pregunta caso="1" opciones="4">
+    <enunciado>Cuando en el texto se dice que “... jugamos y jugamos por horas”, en el juego participan:</enunciado>
+    <imagen>pruebaMate.jpg</imagen>
+    <opcion tipo="V">quien habla y la profesora.</opcion>
+    <opcion tipo="f">los niños, quien habla y la profesora.</opcion>
+    <opcion tipo="f">los otros niños y la profesora</opcion>
+    <opcion tipo="f">quien habla y sus compañeros</opcion>
+</pregunta>
+<pregunta opciones="4">
+    <enunciado>Una gama de colores es simplemente una mezcla de colores. Para obtener la gama de grises se debe hacer la mezcla:</enunciado>
+    <imagen>pruebaMate.jpg</imagen>
+    <opcion tipo="V">Blanco y  negro</opcion>
+    <opcion tipo="f">Negro y azul</opcion>
+    <opcion tipo="f">Amarillo y negro</opcion>
+    <opcion tipo="f">Rojo y amarillo</opcion>
+</pregunta>
+<pregunta opciones="4">
+    <enunciado>Se consideran colores fríos, aquellos que dan la sensación de tranquilidad y seriedad y pertenecen al grupo</enunciado>
+    <imagen>pruebaMate.jpg</imagen>
+    <opcion tipo="V">Rojo</opcion>
+    <opcion tipo="f">Naranja</opcion>
+    <opcion tipo="f">Amarillo</opcion>
+    <opcion tipo="f">Azul</opcion>
+</pregunta>
+</contenido>
+
+

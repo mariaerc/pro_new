@@ -1,0 +1,69 @@
+{% extends 'template_estudiante.html' %}
+{% block titulo %}Examenes{% endblock  %}
+{% block content %}
+    
+    <div class="contenedor">
+
+      <a class="titulo_prueba">Seleciona la prueba que deseas realizar</a>
+      <table id="list-categorias" class="table table-hover" name="categorias-tab" required="required">
+            <tbody>
+              <tr>
+              {% for e in examenes %}
+                  {% for a in ac %}
+                      {% if a.examen_id == e.examen_id %}
+                          <td >
+
+                            <a class="nombreMateria" id="{{ e.examen_id }}" type="submit" onclick="goExam('{{ e.examen_id }}','{{ e.examen }}','{{ e.materia_id }}', '{{ e.nivel }}')">
+                              <div class="mate">
+                                <img src ="/static/images/exam.png" class="img_mat" onclick="goExam('{{ e.examen_id }}','{{ e.examen }}','{{ e.materia_id }}', '{{ e.nivel }}')"><br>
+                                <h1 class="text_ex">{{ e.materia }}</h1>
+                              </div>
+                            </a>
+                          </td>
+                        {% endif %}
+                      {% endfor %}
+
+
+
+                {% endfor %}
+                </tr>
+            </tbody>
+          </table>
+
+          </div>
+      </div>
+
+    <script type="text/javascript">
+        function gId(id)
+        {
+            return document.getElementById(id);
+        }
+        function goExam(xid, exa, mat, niv)
+        {
+
+            location.replace("/examen?id={{ eid }}&xid="+xid+"&examen="+exa+"&materia="+mat+"&nivel="+niv);
+        }
+        function dataT() {
+          var data = new Date();
+          var dia = data.getDate()
+          var mes = data.getMonth()
+          var año = data.getFullYear()
+
+          ///gId("fechaAct").value= dia+mes+año;
+
+        }
+        //function oculta()
+        //{
+          //  {% for e in examenes %}
+            //    {% for i in id_exa %}
+              //      if ({{ e.examen_id }} == {{i}})
+                //    {
+                  //      document.getElementById("{{ e.examen_id }}").style.display = "none";
+                    //}
+              //  {% endfor %}
+          //  {% endfor %}
+        //}
+
+    </script>
+
+{% endblock %}

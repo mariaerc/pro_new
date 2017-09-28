@@ -1,0 +1,9 @@
+Para cargar las preguntas debera cargar un archivo de extencion .zip con los siguentes criterios:
+1) Dentro del archivo comprido descargado junto esta guia encontrara un archivo llamado preguntas.xlm
+   con un formato ya establecido para que el sistema haga una lectura y guardado correcto de la informacion,
+   alli podra ver el ejemplo de como debera ir organizado el contenido.
+2) tambien habra una carpeta llamada img la cual le sera de utilidad en caso de que quiera adjuntar una imagen
+   a alguna pregunta
+3) En el archivo preguntas.xml podra referenciar en el campo "<imagen>nombreimagen.jpg</imagen>" el nombre de la imagen y respectiva extencion 
+   de la que guardo en la carpeta "img"
+

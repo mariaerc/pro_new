@@ -1,17 +1,48 @@
 {% extends 'template.html' %}
 {% block titulo %} Inicio de sesión    {% endblock  %}
 {% block content %}
+    {% if error %}
+      <div class="mensaje_sesion">
+        <a class="mensaje_login">{{ error }}</a>
+      </div>
+    {% endif %}
+    <div class="formlogin">
+      <form action="{% url 'login' %}" id="form_login" method="post" >
+         {% csrf_token %}
 
-     <form action="" method="post" class="formlogin">
-        {% csrf_token %}
-        <img src ="/static/images/descarga.png">
-        <h1>LOGIN</h1><br>
-        <input type="text" name="usuario" max-length="20" placeholder="Ingresa tu user" /> <br />
-        <input type="password" name="clave" max-length="20" placeholder="ingresa tu password"/> <br /><br>
-        <button type="button" value ="10" href="" >Registrarse</button>
-        <button  type="submit" id="btnLogin" href="#">Login</button>
+         <a class="login_tit">LOGIN</a><br><br>
+         <input id="user" class="text_user" type="text" name="usuario" maxlength="20" placeholder="Ingresa tu user" /> <br />
+         <a id="men_user" style="display:none">Campo Usuario no puede ser vacio!</a>
+         <input id ="pass" class="text_user" type="password" name="clave" maxlength="20" placeholder="ingresa tu password"/> <br /><br>
+         <a id="men_pass"style="display:none">Campo Password no puede ser vacio!</a>
 
-    </form>
+     </form>
+     <button  onclick="ValidarUser();"id="btnLogin" class="btn_login">Ingresar  <span class="icon-touch_app"> </span></button>
+    </div>
+
+<script>
+  function gId(id)
+  {
+      return document.getElementById(id);
+  }
+  function ValidarUser() {
+    var user = gId("user").value;
+    var pass = gId("pass").value;
+
+    if (user == "")
+    {
+
+      gId("men_user").style.display = "block";
+    }
+    if (pass == "")
+    {
+      gId("men_pass").style.display = "block";
+    }
+    if (user != "" && pass != "")
+    {
+      gId("form_login").submit();
+    }
+  }
+
+</script>
 {% endblock %}
-
-

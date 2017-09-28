@@ -1,35 +1,200 @@
 {% extends 'template_docentes.html' %}
-{% block titulo %}Agregar{% endblock  %}
+{% block titulo %}Cargar Preguntas{% endblock  %}
 {% block content %}
-    <form action="" method=post name="formularioagre" class="formagregar">
-        {% csrf_token %}
-        <div class="contenido">
 
+    {% csrf_token %}
+    <div class="contenido_docente">
 
-            <select id="Niveles" name="Niveles">
-                    <option value="0">Escoja un nivel</option>
-                    {% for row in niveles %}
-                       <option value="{{ row.id }}"> {{ row.nombre }} </option>
-                    {% endfor %}
-                </select>
-                <select id="Materias" name="Materias">
-                    <option >Materia</option>
-                    {% for row in materias %}
-                       <option value="{{ row.id }}"> {{ row.nombre }} </option>
-                    {% endfor %}
-                </select>
-                <select id="Caso_ID" name="casos">
-                    <option >Casos</option>
-                    {% for row in casos %}
-                       <option value="{{ row.id }}"> {{ row.id }} </option>
-                    {% endfor %}
+        <h1 class="tit-grados">CARGAR PREGUNTAS</h1>
+        {% if mens != "" %}
+          <a class="user_dupl1">!Hubo un error al procesar el archivo, por favor revise el contenido¡</a>
+        {% endif %}
+        <div id="carga" style="display: none">
+          <div id="cascara" align="left">
+            <div id="barra" align="left"></div>
+          </div>
+          <a id="mensajeCascara">Cargando... </a>
+        </div>
 
-                <input class = "Nopciones" type="text" name="Nopciones"  placeholder="N°Opci" />
-                <br />
-                <input type="text" name="enunciado"  placeholder="Ingresa El Enunciado De La Pregunta" /> <br />
+        <div class="foldPan">
 
-                <button type="submit" value ="10" href="#">Continuar</button>
+            <a id="grupo" class="btn_fold_grupo" type="button" onclick="descargar_guia();"value="" ><span class="icon-folder-download"> </span>  Descargar Guia</a>
+        </div>
+
+        <div id="modal_archivo" class="modal_archivo">
+
+          	  <!-- Modal content -->
+          <div class="modal-content-archivo">
+                <a class="etiqueta_nivel">Archivo Invalido</a><br>
+                <button onclick="recarga();" class="btn_save">Aceptar</button>
+          </div>
+        </div>
+        <div class="mensaje_agregar">
+            <a>Apreciado usuario seleccione el nivel y la materia academica a los que corresponden las preguntas que
+              va a almacenar, posteriormente proceda a selecionar el archivo .zip que contenga los
+              archivos necesarios para cargar las preguntas a la base de datos.<br>
+              Tenga en cuenta que si no tiene una idea clara de cual es la estructura para cargar las preguntas puede descargar
+              la guia, la cual es un ejemplo de como debe estar el archivo para ser cargado exitosamente</a><br>
+        </div>
+
+        <div>
+
+          <form id="enviar_preguntas" action="{% url 'descomprimir' %}" method=post name="formularioagre" >
+              {% csrf_token %}
+              <select class="select_admin" id="Niveles" name="Niveles">
+                      <option class="opt-selects" value="0">Escoja un nivel</option>
+                      {% for row in niveles %}
+                         <option class="opt-selects"  value="{{row.id }}">{{ row.nombre }} </option>
+
+                      {% endfor %}
+                  </select>
+                  <select class="select_admin" id="Materias" name="Materias">
+                      <option class="opt-selects"  value = "0">Materia</option>
+                      {% for row in materiass %}
+                         <option class="opt-selects"  value="{{ row.id }}"> {{ row.nombre }} </option>
+                      {% endfor %}
+                  </select>
 
             </div>
+
+            <input type="hidden" id="file_extension" name="file_extension"/>
+            <input type="hidden" id="name_file" name="name_file"/>
+        <a id="mensaje_valido" style="display:none">Faltan elementos por completar</a>
         </form>
+        <input type="file" name="archivo_adjunto" id="archivo_adjunto" onchange="cargar_archivo();"   style="display: none" />
+        <button class="btn_fold_grupo" id="a_input" onclick="document.getElementById('archivo_adjunto').click();" style = "margin-left:-50%;margin-top:7%;margin-bottom:5%;cursor: pointer;"><span class="icon-cloud-upload"> </span> Selecionar Archivo</button>
+        <input type="hidden" id="arch" name="arch"/><br>
+        <button class="btn_fold_grupo" id="go" onclick="validar_form()"; style="cursor: pointer;"><span class="icon-checkmark2"> </span> Continuar</button>
+        </div>
+<script>
+      var archivoB64;
+      var fila = -1;
+      var	$tam;
+      function gId(id)
+      {
+          return document.getElementById(id);
+      }
+
+      var modal = document.getElementById('modal');
+      var modal_archivo = document.getElementById('modal_archivo');
+      // Get the button that opens the modal
+      var btn = document.getElementById("btn_fold_grupo");
+
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+
+
+      // When the user clicks on the button, open the modal
+
+      // When the user clicks on <span> (x), close the modal
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event)
+      {
+        if (event.target == modal)
+        {
+          modal.style.display = "none";
+        }
+
+      }
+    function descargar_guia() {
+      window.open("http://"+location.host+"/static/guia/guia.zip")
+    }
+    function cargar_archivo(){
+        var archivo = document.querySelector('input[type=file]').files[0];
+        var name_file = document.getElementById('archivo_adjunto').files[0].name;
+
+        var e = name_file.split('.').pop();
+
+        if (e == "zip")
+        {
+          var reader = new window.FileReader();
+          reader.readAsDataURL(archivo);
+          reader.onloadend = function() 	{
+              archivoB64 = reader.result;
+              console.log(archivoB64);
+              gId("arch").value = archivoB64;
+              gId("file_extension").value = name_file
+
+          }
+        }
+        else
+        {
+          modal_archivo.style.display = "block";
+        }
+    }
+    function recarga() {
+      location.reload();
+
+    }
+    function validar_form() {
+      var estado = "ok";
+      var nivel = gId("Niveles").value;
+      var materia = gId("Materias").value;
+      var a = gId("archivo_adjunto").value;
+
+      if (nivel != "0" && materia != "0" && a != "")
+      {
+          env();
+      }
+      else {
+        gId("mensaje_valido").style.display = "block";
+      }
+    }
+    function env(){
+
+      data_time();
+      rec(archivoB64);
+    }
+
+    function data_time(){
+      var ext = gId("file_extension").value;
+      var e = ext.split('.').pop();
+      var data = new Date();
+      var a = data.getFullYear();
+      var m = data.getMonth();
+      var mes = m+1;
+      var d = data.getDate();
+      var h = data.getHours();
+      var min = data.getMinutes();
+      var s = data.getSeconds();
+      gId("name_file").value = ("P"+a+mes+d+h+min+s+"."+e);
+      //gId("name_file").value = ("pregu"+"."+e);
+  }
+    function rec(r)
+    {
+
+        window.scrollTo(0,0)
+        gId("mensajeCascara").innerHTML="Cargando...";
+
+        document.getElementById("carga").style.display = "block"
+        document.getElementById("cascara").style.display = "block"
+        document.getElementById("barra").style.display = "block"
+
+        partialClear()
+        upName = gId("name_file").value.toString();
+        upData = r;
+        $tam = upData.length;
+        //upUrl = 'http://172.18.112.222:9090/archivo';
+        upUrl = 'http://'+location.host+'/archivo';
+        console.log(upUrl);
+        upAction = progreso;
+        partialUpload('');
+    }
+
+    function progreso()
+    {
+        var pro = ((($tam-upData.length)/$tam)*100).toFixed(0)
+        gId("barra").style.width = pro+"%";
+        console.log(pro);
+
+        if(upFin == 1)
+        {
+          setTimeout(function(){ gId("enviar_preguntas").submit(); }, 2000);
+          hide('cascara');
+          gId("carga").style.display = "none"
+        }
+    }
+
+  </script>
 {% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'template_estudiante.html' %}
+{% block titulo %}Resultados{% endblock  %}
+{% block content %}
+
+    <div class="contenedor">
+        <h1 class="tit-grados">RESULTADOS DE {{ examen.materia__nombre }}</h1><br><br>
+
+        <table id="list-grados"class="table table-hover">
+              <thead>
+                  <tr>
+                      <th class="titulos_tabla">CORRECTAS</th>
+                      <th class="titulos_tabla">INCORRECTAS</th>
+                      <th class="titulos_tabla">CALIFICACIÓN</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>{{ resbien }}</td>
+                      <td>{{ resmal }}</td>
+                      <td>{{ nota }}</td>
+
+                  </tr>
+              </tbody>
+          </table>
+
+        <div id="chart_div" >
+
+        </div>
+        <a onclick="goBack();" class="btn_cont">Continuar</a><br><br>
+      </div>
+
+    <script type="text/javascript">
+        function gId(id)
+        {
+            return document.getElementById(id);
+        }
+
+        function goExam(xid, exa, mat, niv)
+        {
+
+            location.replace("/examen?id={{ eid }}&xid="+xid+"&examen="+exa+"&materia="+mat+"&nivel="+niv);
+        }
+        function dataT() {
+          var data = new Date();
+          var dia = data.getDate()
+          var mes = data.getMonth()
+          var año = data.getFullYear()
+        }
+        google.charts.load('current', {'packages':['corechart']});
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.charts.setOnLoadCallback(drawChart);
+
+       // Callback that creates and populates a data table,
+       // instantiates the pie chart, passes in the data and
+       // draws it.
+       function drawChart() {
+
+          var bien= {{ resbien }};
+          var mal = {{ resmal }};
+          var total= bien+mal;
+          
+          // Create the data table.
+          var data = new google.visualization.DataTable();
+          data.addColumn('string', 'Topping');
+          data.addColumn('number', 'Opciones');
+          data.addRows([
+            ['Correctas', bien],
+            ['Incorrectas', mal]
+
+          ]);
+
+          // Set chart options
+          var options = {'title':'Resultados de {{ examen.materia__nombre }}',
+                         'width':500,
+                         'height':400};
+
+          // Instantiate and draw our chart, passing in some options.
+          var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+          chart.draw(data, options);
+        }
+
+    </script>
+
+{% endblock %}

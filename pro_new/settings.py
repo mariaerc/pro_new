@@ -78,18 +78,20 @@ WSGI_APPLICATION = 'pro_new.wsgi.application'
 
 
 
-DATABASES = {
+DATABASES =  {
     'default': {
-        #'ENGINE': 'django.db.backends.mysql',
-        #'NAME': 'prsemestral',
-        #'USER': 'semusr',
-        #'PASSWORD': '12345',
-        #'OPTIONS': {
-            #'autocommit': True,
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'prsemestral',
+        'USER': 'semusr',
+        'PASSWORD': '12345',
+        'OPTIONS': {
+            'autocommit': True,
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         },
+    }
 }
+AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
@@ -114,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Bogota'
 
 USE_I18N = True
 
@@ -129,3 +131,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (BASE_DIR+'/static',)
+
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR),"media")

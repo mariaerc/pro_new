@@ -1,0 +1,220 @@
+{% extends 'template_docentes.html' %}
+{% block titulo %}Listado Estudiantes{% endblock  %}
+{% block content %}
+  <div class = "contenido_docente">
+    {% if grado.jornada == "MAÑANA" %}
+      <h1 class="tit-grados">ESTUDIANTES {{ grado.nombre }} J.M </h1><br><br><br>
+    {% else %}
+      <h1 class="tit-grados">ESTUDIANTES {{ grado.nombre }} J.T</h1><br><br><br>
+    {% endif %}
+    {% if perfil == "Administrador" %}
+      <div class="foldPan">
+          <a href="/registro"  id="btn_fold_grupo" class="btn_fold_grupo"><span class="icon-user-plus"> </span> NUEVO ESTUDIANTE</a>
+      </div>
+    {% endif %}
+    <div id="modal_confirmacion" class="modal_archivo">
+
+          <!-- Modal content -->
+      <div class="modal-content-archivo">
+            <a class="etiqueta_nivel">¿Seguro que desea eliminar a este estudiante?<br>
+              Tenga en cuenta que se tambien se eliminaran todos los datos relacionados con el</a><br>
+            <button onclick="confirmacion();" class="btn_si">Si</button>
+            <button onclick="cancelar();" class="btn_no">No</button>
+      </div>
+    </div>
+
+           <div id="modal2" class="modal">
+
+         	  <!-- Modal content -->
+         		<div class="modal-content">
+         			<span class="close2">x</span>
+         			<!-- Formulari -->
+               <form id="form_edit_est" action="{% url 'update_estudiante' %}" method=post name="formularioagrecasos" class="form_edit_estudent">
+                   {% csrf_token %}
+
+                       <label class="lab_formr2" > Nombres Estudiante:</label>
+                       <input id = "name" class="text_reg" type="text" name="name" maxlength="50" placeholder="Ingresa  nombre"/> <br /> <br /> <br /><br />
+
+                       <label class="lab_formr2" > Apellidos Estudiante:</label>
+                       <input id = "apellido" class="text_reg" type="text" name="apellido" maxlength="50" placeholder="Ingresa apellidos"/> <br /> <br /> <br /><br />
+
+                       <label class="lab_formr2"> Selecciona Grado:</label>
+                       <select class="select_grador" id="Grados" name="Grados">
+                               <option value = "0">Grados</option>
+                               {% for row in grados %}
+                                  <option value="{{ row.id }}"> {{ row.nombre }} </option>
+                               {% endfor %}
+                         </select><br> <br /> <br /><br />
+
+                         <label class="lab_formr2" >Usuario:</label>
+                   			<input class="text_reg" type="text" name="user" id="user" maxlength="20" placeholder="Ingresa user"/> <br /> <br /><br /><br />
+
+                         <label class="lab_formr2" >Contraseña:</label>
+                   			<input id="password" class="text_reg" type="password" name="password" maxlength="20" placeholder="ingresa password"/> <br /> <br /><br /><br />
+                         <label class="lab_formr2" >Confirma Tu Contraseña:</label>
+                         <input id="password2" class="text_reg" type="password" name="password2" maxlength="20" placeholder="confirma password"/> <br /> <br /><br /><br />
+                         <input type="hidden" name="id_est" id="id_est" value="">
+                         <a id="men_campo2" class="men_campo" style="display:none">Faltan Campos por llenar</a>
+                     </form>
+                     <a id="men_cont" class="men_campo" style="display:none">Contraseñas no coinciden</a>
+                     <button onclick="confirmaEdicion();"class="btn_save">Guardar</button>
+         			<!-- Fin Formulario-->
+
+         		</div>
+
+     	     </div>
+    <table id="list-estudiantes"class="table table-hover">
+          <thead>
+              <tr>
+                  <th class="titulos_tabla">N°</th>
+                  <th class="titulos_tabla">NOMBRES</th>
+                  <th class="titulos_tabla">APELLIDOS</th>
+                  <th class="titulos_tabla">USERNAME</th>
+                  {% if perfil == "Docente" %}
+                    <th class="titulos_tabla" >OPCIONES</th>
+                  {% endif %}
+                  {% if perfil == "Administrador" %}
+                    <th class="titulos_tabla" colspan="2">OPCIONES</th>
+                  {% endif %}
+              </tr>
+          </thead>
+          <tbody>
+
+
+            {% for estudiante in estudiantes %}
+              <tr>
+                  <td><a>{{ forloop.counter }}</a></td>
+                  <td class="nom-materia">{{ estudiante.nombre }}</td>
+                  <td class="nom-materia">{{ estudiante.apellidos }}</td>
+                  <td class="nom-materia">{{ estudiante.user }}</td>
+
+                  <td><a class="b_editar" onclick="editar_estudiante('{{ estudiante.nombre }}','{{ estudiante.user }}','{{ grado.id }}','{{ estudiante.id_est }}','{{ estudiante.apellidos }}');"><span class="icon-pencil"> </span>Editar</a></td>
+                  {% if perfil == "Administrador" %}
+                        <td><a class="b_editar" onclick="delete_estudiante('{{ estudiante.id_est }}');"><span class="icon-cross"> </span>Borrar</a></td>
+                  {% endif %}
+
+
+              </tr>
+
+
+          {% endfor %}
+
+          </tbody>
+      </table>
+      <div style="display:none">
+          <form action="{% url 'delete_estudiante' %}" method=post name="form_delete" id="form_delete" class="form_new_nivel">
+              {% csrf_token %}
+                  <input type="hidden" name="id_estudiante_del" id="id_estudiante_del" value="">
+          </form>
+      </div>
+  </div>
+  <script type="text/javascript">
+
+      function gId(id)
+      {
+          return document.getElementById(id);
+      }
+
+
+      var modal_confirmacion = document.getElementById('modal_confirmacion');
+      function folder()
+      {
+          if(gId(this.id.substring(4)).style.display != 'block')
+              gId(this.id.substring(4)).style.display = 'block';
+          else
+              gId(this.id.substring(4)).style.display = 'none';
+      }
+
+      var modal2 = document.getElementById('modal2');
+
+
+      // Get the <span> element that closes the modal
+
+      var span2 = document.getElementsByClassName("close2")[0];
+      // When the user clicks on <span> (x), close the modal
+      span2.onclick = function()
+      {
+
+        modal2.style.display = "none";
+
+
+      }
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event)
+      {
+
+        if (event.target == modal2)
+        {
+          modal2.style.display = "none";
+        }
+      }
+      function editar_estudiante(nombre,user,id_grado,id_est,apellidos) {
+        var nombre = nombre;
+        var user= user;
+        var grado = id_grado;
+        var id_est = id_est;
+        var apellidos = apellidos;
+        modal2.style.display = "block";
+        document.getElementById("name").value = nombre;
+        document.getElementById("user").value = user;
+        document.getElementById("id_est").value = id_est;
+        document.getElementById("Grados").value = grado;
+        document.getElementById("apellido").value = apellidos;
+
+      }
+      function delete_estudiante(id_est) {
+        var idE = id_est;
+        document.getElementById("id_estudiante_del").value = idE;
+        modal_confirmacion.style.display = "block";
+      }
+      function confirmacion() {
+          gId("form_delete").submit();
+      }
+      function cancelar() {
+        modal_confirmacion.style.display = "none";
+      }
+      function confirmaEdicion() {
+        if (gId("name").value != "")
+        {
+          if (gId("apellido").value != "" )
+           {
+             if (gId("Grados").value != "0" )
+             {
+                 if (gId("user").value != "" )
+                 {
+                   if (gId("password").value != "")
+                   {
+                     if (gId("password").value == gId("password2").value)
+                     {
+                       gId("form_edit_est").submit();
+                     }
+                     else {
+                       gId("men_cont").style.display="block";
+                     }
+                   }
+                   else {
+
+                       gId("form_edit_est").submit();
+                   }
+                 }
+                 else
+                 {
+                   gId("men_campo2").style.display = "block";
+                 }
+             }
+             else {
+               gId("men_campo2").style.display = "block";
+             }
+           }
+           else {
+             gId("men_campo2").style.display = "block";
+           }
+
+        }
+        else {
+          gId("men_campo2").style.display = "block";
+        }
+      }
+  </script>
+{% endblock %}

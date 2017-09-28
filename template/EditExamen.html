@@ -1,0 +1,97 @@
+{% extends 'template_docentes.html' %}
+{% block titulo %}Editar Examen{% endblock  %}
+{% block content %}
+    <div class="contenido_docente">
+        <h1 class="tit-grados">EDITAR EXAMEN</h1>
+        <div class="formEditarExamen">
+          <form action="{% url 'EditExamen' %}" method="post" id="form_editar">
+            {% csrf_token %}
+            {% for e in list_examen %}
+              <a class="label_pregunta">Nombre Del Examen: </a>
+              <input type="text" name="nombre" id="nombre" class="Nopciones2"value="{{ e.nombre }}" readonly="readonly" required/><br><br><br><br>
+
+              <a class="label_pregunta">N° De Preguntas: </a>
+              <input type="text" name="npreguntas" id="npreguntas" class="Nopciones"value="{{ e.npreguntas }}" required><br><br><br><br>
+
+              <a class="label_pregunta"> Materia:</a>
+              <select class="select-exam2" id="Materias" name="Materias" required>
+                  {% for m in materias %}
+                    {% if m.id == e.materia %}
+                      <option class="opt-selects" value="{{ m.id }}">{{ m.nombre}}</option>
+                    {% endif %}
+                  {% endfor %}
+                  {% for row in materias %}
+                     <option class="opt-selects"  value="{{ row.id }}" > {{ row.nombre }} </option>
+                  {% endfor %}
+              </select><br><br><br><br>
+              <a class="label_pregunta">Grado:  </a>
+              <select class="select-exam2" id="Grados" name="Grados" required>
+                  {% for g in grupos %}
+                    {% if g.id == e.grupo %}
+                      <option class="opt-selects" value="{{ g.id }}">{{ g.nombre}} {{ g.jornada }}</option>
+                    {% endif %}
+                  {% endfor %}
+                  {% for row in grupos %}
+                     <option class="opt-selects"  value="{{ row.id }}"> {{ row.nombre }} {{ row.jornada }}</option>
+                  {% endfor %}
+              </select><br><br><br><br>
+
+
+              <a class="label_pregunta">Periodo:</a>
+              <select class="select-exam" id="Periodo" name="Periodo" required>
+                  {% if e.periodo == "A" %}
+                    <option value = "A">A</option>
+                    <option value = "B">B</option>
+                  {% else %}
+                    <option value = "B">B</option>
+                    <option value = "A">A</option>
+                  {% endif %}
+              </select><br><br><br><br>
+
+              <a class="label_pregunta">Año:{{ id_ac }}</a>
+              <select class="select-exam2" id="Año" name="Año" required>
+                {% for row in años %}
+                  {% if row.año == e.year  %}
+                   <option class="opt-selects"  value="{{ row.año }}"> {{ row.año }}</option>
+                  {% endif %}
+                {% endfor %}
+                {% for r in años %}
+                   <option class="opt-selects"  value="{{ r.año }}"> {{ r.año }}</option>
+                {% endfor %}
+              </select><br><br><br><br>
+              <input type="hidden" id="id_ex" name="id_ex" value="{{ e.id }}"/>
+              <input  type="hidden" id="id_eg" name="id_eg" value="{{ e.id_eg }}"/>
+
+            {% endfor %}
+              <a id="mensaje_valido" style="display:none">Faltan campos por completar</a>
+            </form><br><br><br><br>
+            <a class="btn_fold_grupo" onclick="Enviar();">Guardar </a>
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        function gId(id)
+        {
+            return document.getElementById(id);
+        }
+        function Enviar() {
+          var nombre = gId("nombre").value;
+          var npreguntas = gId("npreguntas").value;
+          var materia = gId("Materias").value;
+          var grado = gId("Grados").value;
+          if (nombre != "" && npreguntas != "" && materia != "" && grado != "")
+          {
+              gId("form_editar").submit();
+          }
+          else {
+              gId("mensaje_valido").style.display = "block";
+          }
+
+        }
+
+
+    </script>
+
+{% endblock %}

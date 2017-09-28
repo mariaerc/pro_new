@@ -1,0 +1,241 @@
+{% extends 'template_docentes.html' %}
+{% block titulo %}Examenes{% endblock  %}
+{% block content %}
+    <div class="contenido_docente">
+        <h1 class="tit-grados">EXAMENES ASIGNADOS</h1><br><br><br>
+        <div class="foldPan">
+            <a onclick="ShowAsignar();" class="btn_fold_grupo" ><span class="icon-clipboard2"> </span>NUEVO EXAMEN</a>
+
+        </div>
+
+        <div id="modal3" class="modal">
+        <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close3">x</span>
+            <div class="formAct">
+                <form action="{% url 'grupo_examen' %}" id="Examen_new" method=post name="formularioagrecasos" class="formagregar">
+                    {% csrf_token %}
+                      <a class="lab_exam">Crear Examen</a><br><br>
+
+                      <a class="lab_exam">Materia:</a>
+                      <select class="select-materia" id="Materias" name="Materias" required>
+                          <option value = "0">Materia</option>
+                          {% for row in materias %}
+                             <option value="{{ row.id }}"> {{ row.nombre }} </option>
+                          {% endfor %}
+                      </select>
+
+                      <a class="lab_exam">Grado:</a>
+                      <select class="select-exam2" id="Grupos" name="Grupos" required>
+                          <option value = "0">Grados</option>
+                          {% for row in grupos %}
+                             <option value="{{ row.id }}"> {{ row.nombre }} {{ row.jornada }}</option>
+                          {% endfor %}
+                      </select><br><br><br>
+
+                      <a class="lab_exam">N° Preguntas: </a><input id="numPre" class = "Nopciones1" type="number" name="numPre"  placeholder="N°" required/>
+
+                      <a class="lab_exam">Periodo:</a>
+                      <select class="select-exam" id="Periodo" name="Periodo" required>
+                          <option value = "A">A</option>
+                          <option value = "B">B</option>
+                      </select>
+
+                      <a class="lab_exam">Año:</a>
+                      <select class="select-exam2" id="Año" name="Año" required>
+                          <option value = "0">Seleccione</option>
+                          <option value = "2017">2017</option>
+                          <option value = "2018">2018</option>
+                          <option value = "2019">2019</option>
+                          <option value = "2020">2020</option>
+                          <option value = "2021">2021</option>
+                          <option value = "2022">2022</option>
+                          <option value = "2023">2023</option>
+                          <option value = "2024">2024</option>
+                          <option value = "2025">2025</option>
+                      </select>
+
+
+
+                </form><br><br><br><br>
+                <a class="lab_exam" id="men_for" style="display:none">Faltan Campos</a><br><br>
+                  <a class="btn_save" onclick="crear_exa();">Guardar</a>
+              </div>
+          </div>
+        </div>
+          <div id="modal2" class="modal">
+
+        	  <!-- Modal content -->
+        		<div class="modal-content">
+        			<span class="close2">x</span>
+              <div class="formAct">
+                <a class="lab_exam">Activar Examen:</a><br><br>
+                <form action="{% url 'activar_exam' %}" id="formActivar" method=post name="formularioagrecasos">
+                    {% csrf_token %}
+                    <div class="contenido">
+                      <select class="select-exam2" id="Examen" name="Examen" required>
+                          <option value = "">Examen</option>
+                          {% for row in eAsignado %}
+                             <option value="{{ row.id }}"> {{ row.nombre }} </option>
+                          {% endfor %}
+                      </select>
+
+                        <a class="lab_exam">Desde: </a><input id="fec1" class="data_exam" type="date" name="fecha_inicio" required>
+                      <a class="lab_exam"> Hasta: </a><input id="fec2" onclick="fecIncial();" class="data_exam" type="date" name="fecha_fin" required><br>
+
+
+                        <button class="btn_save" type="submit" href="">Activar</button>
+                    </div>
+                </form>
+                </div>
+              </div>
+          </div>
+
+          <div style="display:none">
+              <form action="{% url 'desactivar_exam' %}" method=post name="form_desactivar" id="form_desactivar" class="form_new_nivel">
+                  {% csrf_token %}
+                      <input type="hidden" name="id_examen" id="id_examen" value="">
+              </form>
+          </div>
+
+
+        <table id="list-estudiantes"class="table table-hover">
+              <thead>
+                  <tr>
+                      <th class="titulos_tabla1">N°</th>
+                      <th class="titulos_tabla1">NOMBRE EXAMEN</th>
+                      <th class="titulos_tabla1">MATERIA</th>
+                      <th class="titulos_tabla1">DESDE</th>
+                      <th class="titulos_tabla1">HASTA</th>
+                      <th class="titulos_tabla1" colspan="2">OPCIONES</th>
+
+                  </tr>
+              </thead>
+              <tbody>
+
+
+              {% for e in list_examen %}
+                <tr>
+                      <td><a>{{ forloop.counter }}</a></td>
+                      <td class="nom-materia1" >{{ e.nombre }}</td>
+
+                      {% for m in materias %}
+                        {% if m.id  == e.materia %}
+                          <td class="nom-materia1">{{ m.nombre }}</td>
+                        {% endif %}
+                      {% endfor %}
+                      {% if e.finicio  != "" %}
+                        <td class="nom-materia1">{{ e.finicio }}</td>
+                        <td class="nom-materia1">{{ e.ffin }}</td>
+                        {% else %}
+                          <td class="nom-materia1">--</td>
+                          <td class="nom-materia1">--</td>
+                        {% endif %}
+                      <td><a class="b_editar" onclick="EditExamen('{{ e.id_a }}',('{{ e.grupo }}'))"><span class="icon-pencil"> </span>Editar</a></td>
+                      {% if e.finicio  != "" %}
+                        <td><a class="b_editar" onclick="Desactivar('{{ e.id_a }}');"><span class="icon-cancel"> </span>Desactivar</a></td>
+                      {% else %}
+                        <td><a class="b_edit" onclick="Activar('{{ e.id_a }}');"><span class="icon-calendar"> </span> Activar</a></td>
+                      {% endif %}
+
+                </tr>
+              {% endfor %}
+
+              </tbody>
+          </table>
+          <div style="display:none">
+              <form action="{% url 'ShowEditExamen' %}" method=post name="formEditEx" id="formEditEx" class="form_new_nivel">
+                  {% csrf_token %}
+                      <input type="hidden" name="id_examen_edit" id="id_examen_edit" value="">
+                      <input type="hidden" name="id_exa_grup" id="id_exa_grup" value="">
+              </form>
+          </div>
+
+    </div>
+
+    <script type="text/javascript">
+
+        function gId(id)
+        {
+            return document.getElementById(id);
+        }
+        function fecIncial() {
+          gId("fec2").min = gId("fec1").value;
+        }
+
+        var modal2 = document.getElementById('modal2');
+        var modal3 = document.getElementById('modal3');
+
+    		// Get the button that opens the modal
+    		var btn = document.getElementById("btn_fold_grupo");
+
+    		// Get the <span> element that closes the modal
+
+    		var span2 = document.getElementsByClassName("close2")[0];
+    		var span3 = document.getElementsByClassName("close3")[0];
+        function crear_exa() {
+          var materia = gId("Materias").value;
+          var grado = gId("Grupos").value;
+          var npre = gId("numPre").value;
+          var periodo = gId("Periodo").value;
+          var año = gId("Año").value;
+
+          if (materia != "0" && grado != "0" && periodo != "0" && año != "0" && npre != "")
+          {
+            gId("Examen_new").submit()
+          }
+          else {
+            gId("men_for").style.display ="block";
+          }
+        }
+
+    		span2.onclick = function()
+    		{
+    			modal2.style.display = "none";
+
+
+    		}
+    		span3.onclick = function()
+    		{
+    			modal3.style.display = "none";
+
+
+    		}
+
+    		// When the user clicks anywhere outside of the modal, close it
+    		window.onclick = function(event)
+    		{
+
+    			if (event.target == modal2)
+    			{
+    				modal2.style.display = "none";
+    			}
+    			if (event.target == modal3)
+    			{
+    				modal3.style.display = "none";
+    			}
+    		}
+        function Activar(id_ex) {
+          var id_ex = id_ex;
+          document.getElementById("Examen").value = id_ex;
+          //gId("activar_examen").style.display = "block";
+          modal2.style.display = "block";
+        }
+        function Desactivar(id_ex) {
+          var id_ex = id_ex;
+          document.getElementById("id_examen").value = id_ex;
+          gId("form_desactivar").submit();
+        }
+        function EditExamen(id_ex,id_g) {
+          var id_ex = id_ex;
+          var id_g = id_g;
+          document.getElementById("id_examen_edit").value = id_ex;
+          document.getElementById("id_exa_grup").value = id_g;
+          gId("formEditEx").submit();
+        }
+        function ShowAsignar() {
+          modal3.style.display = "block";
+        }
+    </script>
+
+{% endblock %}

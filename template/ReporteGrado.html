@@ -1,0 +1,108 @@
+{% extends 'template_docentes.html' %}
+{% block titulo %}REPORTE DE {{ materia.nombre }}{% endblock  %}
+{% block content %}
+    <div class="contenido_docente">
+      <h1 class="tit-grados">REPORTE DE {{ materia.nombre }} EN {{ grado.nombre }}</h1>
+      <div class="foldPan">
+          <a onclick="drawChart();" id="btn_gra"><input id="btn_fold_grupo" class="btn_fold_grupo" type="button"  value="VER GRAFICA" /></a>
+      </div>
+      <div id="div_tabla_report" style="display:block" >
+        <table id="list-niveles"class="table table-hover">
+              <thead>
+                  <tr>
+                      <th class="titulos_tabla">N°</th>
+                      <th class="titulos_tabla">MATERIA</th>
+                      <th class="titulos_tabla" >CORRECTAS</th>
+                      <th class="titulos_tabla" >INCORRECTAS</th>
+                      <th class="titulos_tabla" >OPCION</th>
+                  </tr>
+              </thead>
+              <tbody>
+
+                      {% for res in resultados %}
+
+                        <tr>
+                          <td><a>{{ forloop.counter }}</a></td>
+                            {% for r in res %}
+                                <td>{{ r }}</td>
+                            {% endfor %}
+                        
+                        </tr>
+
+                      {% endfor %}
+              </tbody>
+          </table>
+      </div>
+
+      <div id="chart_div"  style="display:none" >
+
+      </div>
+      <a onclick="shoTab();" style="display:none" id="btn_tab"><input id="btn_fold_grupo" class="btn_fold_grupo" type="button"  value="VER TABLA" /></a>
+    </div>
+    <div style="display:none">
+        <form action="{% url 'report_estudiante_materia' %}" method=post name="form_delete" id="form_report" class="form_new_nivel">
+            {% csrf_token %}
+                <input type="hidden" name="id_estudiante" id="id_estudiante" value="">
+                <input type="hidden" name="id_materia" id="id_materia" value="">
+        </form>
+    </div>
+    <script type="text/javascript">
+
+        function gId(id)
+        {
+            return document.getElementById(id);
+        }
+        function report_estudiante(id_est, id_mat) {
+          var idE = id_est;
+          var idM = id_mat;
+          document.getElementById('id_estudiante').value = idE
+          document.getElementById('id_materia').value = idM
+          gId("form_report").submit();
+
+        }
+        function shoTab() {
+          document.getElementById('chart_div').style.display = 'none';
+          document.getElementById('btn_tab').style.display = 'none';
+          document.getElementById('div_tabla_report').style.display = 'block';
+          document.getElementById('btn_gra').style.display = 'block';
+        }
+        // Load the Visualization API and the corechart package.
+        google.charts.load('current', {'packages':['corechart']});
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        //google.charts.setOnLoadCallback(drawChart);
+
+       // Callback that creates and populates a data table,
+       // instantiates the pie chart, passes in the data and
+       // draws it.
+       function drawChart() {
+          var data = new google.visualization.DataTable();
+          document.getElementById('div_tabla_report').style.display = 'none';
+          document.getElementById('btn_gra').style.display = 'none';
+          document.getElementById('chart_div').style.display = 'block';
+          document.getElementById('btn_tab').style.display = 'block';
+
+          var bien= {{ resbien }};
+          var mal = {{ resmal }};
+          // Create the data table.
+
+          data.addColumn('string', 'Topping');
+          data.addColumn('number', 'Opciones');
+          data.addRows([
+            ['Correctas', bien],
+            ['Incorrectas', mal]
+
+          ]);
+
+          // Set chart options
+          var options = {'title':'Repote De {{ materia.nombre }} En {{ grado.nombre }}',
+                         'width':500,
+                         'height':400};
+
+          // Instantiate and draw our chart, passing in some options.
+          var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+          chart.draw(data, options);
+        }
+    </script>
+
+{% endblock %}

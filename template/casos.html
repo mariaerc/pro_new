@@ -1,0 +1,14 @@
+{% extends 'template_docentes.html' %}
+{% block titulo %}Agregar Casos{% endblock  %}
+{% block content %}
+    <form action="{% url 'casos' %}" method=post name="formularioagrecasos" class="formagregar">
+        {% csrf_token %}
+        <div class="contenido_docente">
+            <label>Nombre Del Caso :  </label>
+            <input class = "tex_casos" type="text" name="Nom_caso"  placeholder="Nombre" /><br>
+            <label>Contenido Del Caso:</label>
+            <input class = "enunciado" type="text" name="Agre_Caso"  placeholder="Agrega un caso" /><br>
+            <button type="submit" value ="10" href="#">Guardar</button>
+        </div>
+    </form>
+{% endblock %}

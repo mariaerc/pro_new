@@ -1,0 +1,18 @@
+{% extends 'template.html' %}
+{% block titulo %} Inicio de sesión    {% endblock  %}
+{% block content %}
+    {% if error %}
+        <h1>{{ error }}</h1>
+    {% endif %}
+
+     <form action="" method="post" class="formlogin">
+        {% csrf_token %}
+        <img src ="/static/images/descarga.png">
+        <h1>LOGIN</h1><br>
+        <input class="form" type="text" name="usuario" max-length="20" placeholder="Ingresa tu user" /> <br />
+        <input class="form" type="password" name="clave" max-length="20" placeholder="ingresa tu password"/> <br /><br>
+
+        <button  type="submit" id="btnLogin">Login</button>
+
+    </form>
+{% endblock %}

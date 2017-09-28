@@ -1,0 +1,256 @@
+{% extends 'template_docentes.html' %}
+{% block titulo %}Listado Estudiantes{% endblock  %}
+{% block content %}
+  <div class = "contenido_docente">
+    <h1 class="tit-grados">EDITAR PREGUNTA</h1>
+    <div id="carga2" style="display: none">
+      <div id="cascara" align="left">
+        <div id="barra" align="left"></div>
+      </div>
+      <a id="mensajeCascara">Cargando... </a>
+    </div>
+      <div class="formEditarPregunta">
+
+          <form action="{% url 'EditPregunta' %}" method=post name="EditPre" id="EditPre" >
+                  {% csrf_token %}
+                  <div>
+                    <a class="label_pregunta2">Nivel:</a>
+                    <select class="select_admin" id="Niveles" name="Niveles" required>
+                            {% for nivel in niveles %}
+                              {% if pregunta.nivel_id == nivel.id%}
+                                <option class="opt-selects" value="{{ nivel.id }}">{{ nivel.nombre}}</option>
+                              {% endif %}
+                            {% endfor %}
+                            {% for row in niveles %}
+                               <option class="opt-selects"  value="{{row.id }}">{{ row.nombre }} </option>
+
+                            {% endfor %}
+                        </select>
+                        <a class="label_pregunta2"> Materia:</a>
+                        <select class="select_admin" id="Materias" name="Materias" required>
+                            {% for materia in materias %}
+                              {% if pregunta.materia_id == materia.id%}
+                                <option class="opt-selects" value="{{ materia.id }}">{{ materia.nombre}}</option>
+                              {% endif %}
+                            {% endfor %}
+                            {% for row in materias %}
+                               <option class="opt-selects"  value="{{ row.id }}"> {{ row.nombre }} </option>
+                            {% endfor %}
+                        </select>
+                        <br />
+                  </div>
+                      <div>
+                        <a class="label_pregunta"> Enunciado:</a>
+                        <textarea class = "text_preguntaEditar" type="text" name="enunciado"  id="enunciado" required>{{ pregunta.enunciado }}</textarea>
+                      </div><br>
+                      <div>
+                        {% for opcion in opciones %}
+                          <a class="label_pregunta">Opcion {{ forloop.counter }}: </a>
+                          <input type="text" name="O_{{ opcion.id }}" id="O_{{ opcion.id }}" class="Nopciones2"value="{{ opcion.enunciado }}" required>
+                          <a class="label_pregunta2"> Tipo:  </a>
+                            <select class="select_admin2" id="T_{{ opcion.id }}" name="T_{{ opcion.id }}" required>
+                                      {% if opcion.tipo == "V" %}
+                                        <option class="opt-selects" value="V">V</option>
+                                        <option class="opt-selects" value="F">F</option>
+                                      {% else %}
+                                        <option class="opt-selects" value="F">F</option>
+                                        <option class="opt-selects" value="V">V</option>
+                                      {% endif %}
+                                </select><br><br>
+
+                        {% endfor %}
+                      </div><br><br>
+                      <div>
+                        {% if pregunta.caso_id != None %}
+                          {% for caso in casos %}
+                            {% if caso.id == pregunta.caso_id %}
+                              <a  class="label_pregunta"> Caso: {{ caso.nombre_caso }}</a><br><br>
+                              <input type="hidden" id="id_caso" name="id_caso" value="{{ caso.id }}"/ required>
+                              <textarea class = "text_preguntaEditar" type="text" name="caso_enunciado"  id="caso_enunciado" required>{{ caso.enunciado }}</textarea><br>
+                              <textarea class = "text_preguntaEditar" style="display:none" type="text" name="caso_enunciado_nuevo"  id="caso_enunciado_nuevo" ></textarea><br>
+                            {% endif %}
+                          {% endfor %}
+                        {% else %}
+                          <a class="btn_fold_grupo" id="adj_caso" onclick="adjcaso()"; style="cursor: pointer;float:left">Añadir Caso</a><br><br><br>
+                          <div id="New_caso" style="display:none" >
+                            <a  class="label_pregunta">Nombre:</a><input type="text" name="nom_caso" id="nom_caso" class="Nopciones2"value="" required><br><br>
+                            <a  class="label_pregunta">Enunciado:</a>
+                            <textarea class = "text_preguntaEditar" type="text" name="caso_enunciado_nuevo"  id="caso_enunciado_nuevo" required ></textarea><br>
+                          </div>
+                          <textarea style="display:none" class = "text_preguntaEditar" type="text" name="caso_enunciado"  id="caso_enunciado"></textarea><br>
+                        {% endif %}
+                      </div>
+
+                      <input type="hidden"  id="id_pregunta" name="id_pregunta" value="{{ pregunta.id }}"/>
+                      <input type="hidden" id="caso_nuevo" name="caso_nuevo"/>
+                      <input type="hidden" id="name_file" name="name_file"/>
+                      <input type="hidden" id="file_extension" name="file_extension"/>
+                      <textarea id ="area" name="area" style=" display:none;"></textarea>
+              </form>
+              {% if pregunta.imagen == None %}
+                  <a class="label_pregunta">Adjuntar imagen a la pregunta</a><br><br><br>
+                  <input type="file" name="archivo_adjunto" class="ArchivoNew" id="archivo_adjuntoNew" onchange="cargar_archivoNew();"/>
+              {% else %}
+                  <div>
+                    <a class="label_pregunta">Imagen Actual:</a><br><br>
+                    <img onclick="ver_imagen('{{ pregunta.imagen }}')"class="img_for_edit" src="/static/documentos/{{ pregunta.imagen }}">
+                  </div><br>
+                  <div>
+                    <a class="label_pregunta">Cambiar imagen</a><br><br>
+                    <input type="file" name="archivo_adjunto" id="archivo_adjuntoOld" class="ArchivoOld" onchange="cargar_archivo();"/>
+                  </div>
+
+              {% endif %}
+              <input type="hidden" id="arch" name="arch"/><br>
+              <a id="mensaje_valido" style="display:none">Faltan elementos por completar</a>
+
+              <button class="btn_fold_grupo" id="go" onclick="validar_form()"; style="cursor: pointer;">Guardar Cambios</button>
+          </div>
+  </div>
+  <script type="text/javascript">
+      var archivoB64;
+      var fila = -1;
+      var	$tam;
+      opt = []
+      {% for o in opciones %}
+          opt.push({{ o.id }});
+      {% endfor %}
+      function gId(id)
+      {
+          return document.getElementById(id);
+      }
+      function adjcaso() {
+        gId("adj_caso").style.display = "none";
+        gId("New_caso").style.display = "block";
+      }
+
+      function cargar_archivo(){
+          var archivo = document.querySelector('.ArchivoOld').files[0];
+          var name_file = document.getElementById('archivo_adjuntoOld').files[0].name;
+
+          var e = name_file.split('.').pop();
+          var reader = new window.FileReader();
+          reader.readAsDataURL(archivo);
+          reader.onloadend = function() 	{
+              archivoB64 = reader.result;
+              console.log(archivoB64);
+              gId("arch").value = archivoB64;
+              gId("file_extension").value = name_file
+
+          }
+      }
+      function ver_imagen(imagen) {
+        var img = imagen
+        var urli = "http://192.168.1.33:9090/static/documentos/"+imagen;
+        window.open(urli)
+      }
+      function cargar_archivoNew(){
+          var archivo = document.querySelector('.ArchivoNew').files[0];
+          var name_file = document.getElementById('archivo_adjuntoNew').files[0].name;
+
+          var e = name_file.split('.').pop();
+          var reader = new window.FileReader();
+          reader.readAsDataURL(archivo);
+          reader.onloadend = function() 	{
+              archivoB64 = reader.result;
+              console.log(archivoB64);
+              gId("arch").value = archivoB64;
+              gId("file_extension").value = name_file
+
+          }
+      }
+
+        function validar_form() {
+          var enunciado = gId("enunciado").value;
+          var niveles = gId("Niveles").value;
+          var materias = gId("Materias").value;
+          if (enunciado != "")
+          {
+              env();
+          }
+          else {
+            gId("mensaje_valido").style.display="block";
+          }
+
+
+        }
+        function env(){
+
+          for (var q = 0; q < opt.length; q++)
+          {
+              gId("area").value += opt[q]+":"+gId("O_"+opt[q]).value+":"+gId("T_"+opt[q]).value+";";
+
+          }
+          if (gId("caso_enunciado").value == ""){
+            if (gId("caso_enunciado_nuevo").value != "")
+            {
+                gId("caso_nuevo").value = "si";
+              }
+              else {
+                gId("caso_nuevo").value = "no";
+              }
+            }
+
+          if(gId("arch").value != "")
+          {
+            data_time();
+            rec(archivoB64);
+          }
+          else {
+            gId("EditPre").submit();
+          }
+        }
+        function data_time(){
+          var ext = gId("file_extension").value;
+          var e = ext.split('.').pop();
+          var data = new Date();
+          var a = data.getFullYear();
+          var m = data.getMonth();
+          var mes = m+1;
+          var d = data.getDate();
+          var h = data.getHours();
+          var min = data.getMinutes();
+          var s = data.getSeconds();
+          gId("name_file").value = ("P"+a+mes+d+h+min+s+"."+e);
+          //gId("name_file").value = ("pregu"+"."+e);
+      }
+        function rec(r)
+        {
+            window.scrollTo(0,0)
+            gId("mensajeCascara").innerHTML="Cargando...";
+
+            document.getElementById("carga2").style.display = "block"
+            document.getElementById("cascara").style.display = "block"
+            document.getElementById("barra").style.display = "block"
+
+            partialClear()
+            upName = gId("name_file").value.toString();
+            upData = r;
+            $tam = upData.length;
+            //upUrl = 'http://172.18.112.219:9090/archivo';
+            upUrl = 'http://192.168.1.33:9090/archivo';
+            console.log(upUrl);
+            upAction = progreso;
+            partialUpload('');
+        }
+
+        function progreso()
+        {
+            var pro = ((($tam-upData.length)/$tam)*100).toFixed(0)
+            gId("barra").style.width = pro+"%";
+            console.log(pro);
+
+            if(upFin == 1)
+            {
+              hide('cascara');
+              gId("EditPre").submit();
+              gId("carga2").style.display = "none";
+
+            }
+        }
+
+
+
+
+  </script>
+{% endblock %}

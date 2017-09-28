@@ -1,0 +1,244 @@
+{% extends 'template_docentes.html' %}
+{% block titulo %}Listado De Usuarios{% endblock  %}
+{% block content %}
+  <div class = "contenido_docente">
+    <h1 class="tit-grados">LISTADO DE USUARIOS</h1><br><br>
+    {% if perfil == "Administrador" %}
+      <div class="foldPan">
+
+          <a href="/RegistroUser"  id="btn_fold_grupo" class="btn_fold_grupo"><span class="icon-user-plus"> </span> NUEVO USUARIO</a>
+      </div>
+    {% endif %}
+    <div id="modal_confirmacion" class="modal_archivo">
+
+          <!-- Modal content -->
+      <div class="modal-content-archivo">
+            <a class="etiqueta_nivel">¿Seguro que desea eliminar a este usuario?</a><br>
+            <button onclick="confirmacion();" class="btn_si">Si</button>
+            <button onclick="cancelar();" class="btn_no">No</button>
+      </div>
+    </div>
+
+           <div id="modal2" class="modal">
+
+         	  <!-- Modal content -->
+         		<div class="modal-content">
+         			<span class="close2">x</span>
+         			<!-- Formulari -->
+               <form id="form_edit_est" action="{% url 'update_user' %}" method=post name="formularioagrecasos" class="form_edit_estudent">
+                   {% csrf_token %}
+
+                      <label class="lab_formr2" > Nombre: </label>
+                      <input id = "name" class="text_reg" type="text" name="name" maxlength="50" placeholder="Ingrese  nombre"/> <br /> <br /> <br /><br />
+
+                      <label class="lab_formr2" >Usuario:</label>
+                   		<input class="text_reg" type="text" name="user" id="user" maxlength="20" placeholder="Ingrese user"/> <br /> <br /><br /><br />
+
+                      <label class="lab_formr2" >Contraseña:</label>
+                 			<input id="password" class="text_reg" type="password" name="password" maxlength="20" placeholder="ingrese password"/> <br /> <br /><br /><br />
+                      <label class="lab_formr2" >Confirma Tu Contraseña:</label>
+                      <input id="password2" class="text_reg" type="password" name="password2" maxlength="20" placeholder="confirme password"/> <br /> <br /><br /><br />
+
+                      <label class="lab_formr2">Administrador:</label>
+                      <input class="radio" type="radio" name="tipo" id="tipo1" value="Administrador"/><br />
+                      <label class="lab_formr2">Docente:</label>
+                      <input class="radio" type="radio" name="tipo" id="tipo2" value="Docente"/><br />
+                      <br /><a id="men_perfil" class="men_reg" style="display:none">Seleccione una opcion!</a>
+                      <input type="hidden" id="perfil" name="perfil"/>
+
+                     <input type="hidden" name="id_user" id="id_user" value="">
+                     <a id="men_campo2" class="men_campo" style="display:none">Faltan Campos por llenar</a>
+              </form>
+              <a id="men_cont" class="men_campo" style="display:none">Contraseñas no coinciden</a>
+              <button onclick="confirmaEdicion();"class="btn_save">Guardar</button>
+         			<!-- Fin Formulario-->
+         		</div>
+
+     	     </div>
+    <table id="list-estudiantes"class="table table-hover">
+          <thead>
+              <tr>
+                  <th class="titulos_tabla">N°</th>
+                  <th class="titulos_tabla">NOMBRE</th>
+                  <th class="titulos_tabla">USERNAME</th>
+                  <th class="titulos_tabla" >ULTIMO ACCESO</th>
+                  <th class="titulos_tabla" >PERFIL</th>
+                  <th class="titulos_tabla" colspan="2">OPCIONES</th>
+              </tr>
+          </thead>
+          <tbody>
+
+
+            {% for user in users %}
+              <tr id="tok">
+                  <td><a>{{ forloop.counter }}</a></td>
+                  <td id="{{ user.id_id }}"class="nom-materia">{{ user.id_id__first_name }}</td>
+                  <td class="nom-materia">{{ user.id_id__username }}</td>
+                  {% if user.id_id__last_login == None %}
+                    <td class="nom-materia">---</td>
+                  {% else %}
+                    <td class="nom-materia">{{ user.id_id__last_login }}</td>
+                  {% endif %}
+                  <td class="nom-materia">{{ user.perfil }}</td>
+
+                  <td><a class="b_editar" onclick="editar_user('{{ user.id_id }}','{{ user.id_id__first_name }}','{{ user.id_id__username }}','{{ user.perfil }}');"><span class="icon-pencil"> </span>Editar</a></td>
+                  {% if perfil == "Administrador" %}
+                        <td><a class="b_editar" onclick="delete_user('{{ user.id_id }}');"><span class="icon-cross"> </span>Borrar</a></td>
+                  {% endif %}
+
+
+              </tr>
+
+
+          {% endfor %}
+
+          </tbody>
+      </table>
+      <div style="display:none">
+          <form action="{% url 'delete_user' %}" method=post name="form_delete" id="form_delete" class="form_new_nivel">
+              {% csrf_token %}
+                  <input type="hidden" name="id_user_del" id="id_user_del" value="">
+          </form>
+      </div>
+  </div>
+  <script type="text/javascript">
+      us = []
+      {% for user in users %}
+          us.push({{ user.id_id }});
+      {% endfor %}
+
+      function gId(id)
+      {
+          return document.getElementById(id);
+      }
+
+
+      var modal_confirmacion = document.getElementById('modal_confirmacion');
+      function folder()
+      {
+          if(gId(this.id.substring(4)).style.display != 'block')
+              gId(this.id.substring(4)).style.display = 'block';
+          else
+              gId(this.id.substring(4)).style.display = 'none';
+      }
+
+      var modal2 = document.getElementById('modal2');
+
+
+      // Get the <span> element that closes the modal
+
+      var span2 = document.getElementsByClassName("close2")[0];
+      // When the user clicks on <span> (x), close the modal
+      span2.onclick = function()
+      {
+
+        modal2.style.display = "none";
+
+
+      }
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event)
+      {
+
+        if (event.target == modal2)
+        {
+          modal2.style.display = "none";
+        }
+      }
+      function editar_user(id_user,nombre,user,perfil) {
+        var nombre = nombre;
+        var user= user;
+        var id_user = id_user;
+        var perfil = perfil;
+        modal2.style.display = "block";
+        document.getElementById("name").value = nombre;
+        document.getElementById("user").value = user;
+        document.getElementById("id_user").value = id_user;
+        //document.getElementById("perfil").value = perfil;
+        if(perfil == "Administrador"){
+            document.getElementById("tipo1").checked=true;
+        }
+        else
+        {
+          document.getElementById("tipo2").checked=true;
+
+        }
+
+
+      }
+      function delete_user(id_user) {
+        var idU = id_user;
+        document.getElementById("id_user_del").value = idU;
+        modal_confirmacion.style.display = "block";
+      }
+      function confirmacion() {
+          gId("form_delete").submit();
+      }
+      function cancelar() {
+        modal_confirmacion.style.display = "none";
+      }
+
+      function confirmaEdicion() {
+        opciones = document.getElementsByName("tipo");
+        var seleccionado = false;
+
+        for ( var i = 0; i < opciones.length; i++ )
+        {
+            if(opciones[i].checked)
+            {
+              seleccionado = true;
+              gId("perfil").value = opciones[i].value
+              break;
+
+            }
+        }
+
+
+
+        if (gId("name").value != "")
+        {
+          if (gId("user").value != "" )
+           {
+             if (gId("perfil").value != "" )
+             {
+                if (gId("password").value != "")
+                {
+                  if (gId("password").value == gId("password2").value)
+                  {
+                    gId("form_edit_est").submit();
+                  }
+                  else {
+                    gId("men_cont").style.display="block";
+                  }
+                }
+                else {
+
+                    gId("form_edit_est").submit();
+                }
+
+             }
+             else {
+               gId("men_campo2").style.display = "block";
+             }
+           }
+           else {
+             gId("men_campo2").style.display = "block";
+           }
+
+        }
+        else {
+          gId("men_campo2").style.display = "block";
+        }
+      }
+      function contraer()
+      {
+        for(var  u = 0; u <= us.length; u++)
+        {
+            texto_original = gId(us[u]).innerHTML;
+            gId(us[u]).innerHTML = texto_original.substring(0,22) + '...';
+
+        }
+      }
+  </script>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'template_docentes.html' %}
+{% block titulo %}Registrate Docente {% endblock  %}
+{% block content %}
+    <div class="contenido_docente">
+      <h1 class="tit-grados">REGISTRAR</h1>
+        {% if mess != "" %}
+          <a class="user_dupl">!Ya existe un usuario con el mismo username¡</a>
+        {% endif %}
+        <div class="formregistro">
+          <form action="{% url 'RegistroUser' %}" method=post name="form" id="fRegistro" >
+            {% csrf_token %}
+                  <label class="label_registro"> Nombre:</label>
+                  <input class="txt_registro" type="text" name="name" id="name" maxlength="50" placeholder="Ingrese nombre"/> <br />
+                  <a id="men_name" class="men_reg" style="display:none">Campo Nombre no puede ser vacio!</a>
+
+                  <label class="label_registro" >Usuario:</label>
+                  <input class="txt_registro" type="text" name="user" id="user" maxlength="20" placeholder="Ingrese user"/> <br />
+                  <a id="men_user" class="men_reg" style="display:none">Campo Usuario no puede ser vacio!</a>
+
+                  <label class="label_registro">Contraseña:</label>
+                  <input class="txt_registro" type="password" name="password" id="password" maxlength="20" placeholder="ingrese password"/> <br />
+                  <a id="men_pass" class="men_reg" style="display:none">Campo Contraseña no puede ser vacio!</a>
+
+                  <label class="label_registro">Confirma Tu <br>Contraseña:</label>
+                  <input class="txt_registro" type="password" id="confirmacion" name="confirmacion" maxlength="20" placeholder="confirme password"/> <br /> <br />
+                  <a id="men_conf" class="men_reg" style="display:none">Campo Confirmacion no puede ser vacio!</a>
+
+                <label class="label_registro">Administrador:</label>
+                <input class="radio" type="radio" name="tipo" id="tipo" value="Administrador"/><br />
+                <label class="label_registro">Docente:</label>
+                <input class="radio" type="radio" name="tipo" id="tipo" value="Docente"/><br />
+                <br /><a id="men_perfil" class="men_reg" style="display:none">Seleccione una opcion!</a>
+                <input type="hidden" id="perfil" name="perfil"/>
+          </form><br /><br />
+            <a id="men_cont" class="men_reg" style="display:none">Contraseñas no coinciden</a>
+            <button class="btn_guardaR" onclick="validarRegistro();">Guardar</button>
+        </div>
+
+    </div>
+
+
+<script type="text/javascript">
+  function gId(id)
+  {
+      return document.getElementById(id);
+  }
+  function validarRegistro() {
+      var name =document.getElementById('name').value;
+      var user =document.getElementById('user').value;
+      var pass =document.getElementById('password').value;
+      var conf =document.getElementById('confirmacion').value;
+
+      if(document.getElementById('name').value == "" )
+      {
+        gId("men_name").style.display = "block";
+      }
+      if(document.getElementById('user').value == "" )
+      {
+        gId("men_user").style.display = "block";
+      }
+      if(document.getElementById('password').value == "" )
+      {
+        gId("men_pass").style.display = "block";
+      }
+      if(document.getElementById('confirmacion').value == "" )
+      {
+        gId("men_conf").style.display = "block";
+      }
+      opciones = document.getElementsByName("tipo");
+      var seleccionado = false;
+
+      for ( var i = 0; i < opciones.length; i++ )
+      {
+          if(opciones[i].checked)
+          {
+            seleccionado = true;
+            gId("perfil").value = opciones[i].value
+            break;
+
+          }
+      }
+
+      if(!seleccionado)
+      {
+          gId("men_perfil").style.display = "block";
+      }
+      if (name != "" && user != "" && pass != "" && conf != "")
+      {
+        if (pass == conf)
+        {
+          gId("fRegistro").submit();
+        }
+        else {
+            gId("men_cont").style.display = "block";
+        }
+
+      }
+  }
+
+</script>
+
+{% endblock %}

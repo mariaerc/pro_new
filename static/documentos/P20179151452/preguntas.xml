@@ -1,0 +1,84 @@
+<contenido>
+<caso codigo="1" nombre="logaritmos">
+A mí me gusta el estudio, pero lo que más me gusta es jugar. Ahora me
+gustan mucho las matemáticas porque la profesora Carmen hace las
+clases jugando. Primero jugamos y jugamos por horas los juegos que
+ella trae y luego vamos comprendiendo cómo funcionan: así descubri-
+mos las matemáticas escondidas en ellos.
+</caso>
+
+<pregunta caso="1" opciones="4">
+    <enunciado>Cuando en el texto se dice que “... jugamos y jugamos por horas”, en el juego participan:</enunciado>
+    <imagen>biologia1.jpg</imagen>
+    <opcion tipo="V">quien habla y la profesora.</opcion>
+    <opcion tipo="f">los niños, quien habla y la profesora.</opcion>
+    <opcion tipo="f">los otros niños y la profesora</opcion>
+    <opcion tipo="f">quien habla y sus compañeros</opcion>
+</pregunta>
+<pregunta opciones="4">
+    <enunciado>Una gama de colores es simplemente una mezcla de colores. Para obtener la gama de grises se debe hacer la mezcla:</enunciado>
+    <imagen>biologia2.jpg</imagen>
+    <opcion tipo="V">Blanco y  negro</opcion>
+    <opcion tipo="f">Negro y azul</opcion>
+    <opcion tipo="f">Amarillo y negro</opcion>
+    <opcion tipo="f">Rojo y amarillo</opcion>
+</pregunta>
+<pregunta opciones="4">
+    <enunciado>Se consideran colores fríos, aquellos que dan la sensación de tranquilidad y seriedad y pertenecen al grupo</enunciado>
+    <imagen></imagen>
+    <opcion tipo="V">Rojo</opcion>
+    <opcion tipo="f">Naranja</opcion>
+    <opcion tipo="f">Amarillo</opcion>
+    <opcion tipo="f">Azul</opcion>
+</pregunta>
+<pregunta opciones="4">
+    <enunciado>Un jugador de un equipo por cada 10 lanzamientos encestaba 4. Si en un partido hizo 25 lanzamientos es posible que haya encestado</enunciado>
+    <imagen></imagen>
+    <opcion tipo="f">6 lanzamientos.</opcion>
+    <opcion tipo="f">8 lanzamientos.</opcion>
+    <opcion tipo="v">10 lanzamientos.</opcion>
+    <opcion tipo="f">14 lanzamientos.</opcion>
+</pregunta>
+<pregunta opciones="4">
+    <enunciado>A veces cuando jugamos en el recreo necesitamos árbitros porque ellos</enunciado>
+    <imagen>biologia3.jpg</imagen>
+    <opcion tipo="f">pueden cambiar las reglas</opcion>
+    <opcion tipo="f">son amigos de los jugadores.</opcion>
+    <opcion tipo="v">utilizan y conocen el reglamento.</opcion>
+    <opcion tipo="f">son personas muy inteligentes</opcion>
+</pregunta>
+<pregunta opciones="4">
+    <enunciado>La profesora también nos enseñó a jugar ajedrez, un juego que representa un conflicto entre dos</enunciado>
+    <imagen></imagen>
+    <opcion tipo="f">potencias.</opcion>
+    <opcion tipo="f">razas.</opcion>
+    <opcion tipo="f">ciudades.</opcion>
+    <opcion tipo="v">reinos.</opcion>
+</pregunta>
+<pregunta opciones="4">
+    <enunciado>La profesora nos habló de los carnavales y nos contó que son festividades tradicionales; esto quiere decir que son</enunciado>
+    <imagen></imagen>
+    <opcion tipo="V">inventos recientes de los gobernantes.</opcion>
+    <opcion tipo="f">fiestas donde participa toda la comunidad.</opcion>
+    <opcion tipo="f">una manera de jugar de los adultos.</opcion>
+    <opcion tipo="f">costumbres culturales de los pueblos.</opcion>
+</pregunta>
+<pregunta opciones="4">
+    <enunciado>Los niños decidieron hacer una competencia de natación y al terminar notaron que su respiración estaba acelerada. Esto sucede porque</enunciado>
+    <imagen></imagen>
+    <opcion tipo="V">hay muchas sustancias en el agua de la piscina.</opcion>
+    <opcion tipo="f">el agua de la piscina es muy pesada.</opcion>
+    <opcion tipo="f">los pulmones se dañan con el agua de la piscina.</opcion>
+    <opcion tipo="f">el cuerpo necesita más oxígeno.</opcion>
+</pregunta>
+<pregunta opciones="4">
+    <enunciado>Cuando un niño nada sin gafas bajo el agua de la piscina sus ojos se enrojecen; esta irritación se debe principalmente a</enunciado>
+    <imagen></imagen>
+    <opcion tipo="V">la luz del sol que cae directamente en el agua.</opcion>
+    <opcion tipo="f">la ausencia de oxígeno en el agua.</opcion>
+    <opcion tipo="f">las pestañas que se meten en los ojos.</opcion>
+    <opcion tipo="f">la presencia de compuestos químicos en el agua.</opcion>
+</pregunta>
+</contenido>
+
+

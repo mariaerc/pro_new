@@ -1,0 +1,54 @@
+{% extends 'template_docentes.html' %}
+{% block titulo %}Listado Preguntas{% endblock  %}
+{% block content %}
+  <div class = "contenido_docente">
+    <h1 class="tit-grados">PREGUNTAS POR MATERIAS</h1><br>
+    <div class="foldPan">
+      <a href="/NewPregunta" class="btn_fold_grupo"><span class="icon-plus"> </span>NUEVA PREGUNTA</a>
+    </div>
+    <table id="list-estudiantes"class="table table-hover">
+          <thead>
+              <tr>
+                  <th class="titulos_tabla">N°</th>
+                  <th class="titulos_tabla">MATERIAS</th>
+                  <th class="titulos_tabla">OPCION</th>
+              </tr>
+          </thead>
+          <tbody>
+
+
+          {% for materia in materia %}
+              <tr>
+                  <td><a>{{ forloop.counter }}</a></td>
+
+
+                      <td>{{ materia.nombre }}</td>
+
+                  <td><a class="b_editar" onclick="ver_mpreguntas('{{ materia.id }}');"><span class="icon-eye"> </span>Ver</a></td>
+              </tr>
+            {% endfor %}
+
+
+          </tbody>
+      </table>
+      <div style="display:none">
+          <form action="{% url 'ViwPreguntas' %}" method=post name="form_viw" id="form_viw" class="form_new_nivel">
+              {% csrf_token %}
+                  <input type="hidden" name="id_materia" id="id_materia" value="">
+          </form>
+      </div>
+  </div>
+  <script type="text/javascript">
+
+      function gId(id)
+      {
+          return document.getElementById(id);
+      }
+      function ver_mpreguntas(id_materia) {
+        var idM = id_materia;
+        document.getElementById("id_materia").value = idM;
+        gId("form_viw").submit();
+      }
+
+  </script>
+{% endblock %}

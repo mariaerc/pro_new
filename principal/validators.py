@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-from .models import Usuario
+from django.contrib.auth.models import User
 from django.contrib import auth
 
 class Validator(object):
@@ -52,7 +52,7 @@ class FormRegistroValidator(Validator):
             self._message = 'Las contraseñas no  coinciden'
             return False
 
-        if Usuario.objects.filter(email = self._post('email')).exists():
+        if User.objects.filter(email = self._post('email')).exists():
             self._message = 'El correo electrónico ya se encuentra registrado'
             return False
         #Por ultimo retornamos que en caso de que todo marche bien es correcto el formulario
@@ -64,16 +64,8 @@ class FormLoginValidator(Validator):
     def is_valid(self):
         if not super(FormLoginValidator, self).is_valid():
             return False
-
-        usuario = self._post['usuario']
-        clave = self._post['clave']
-
-        acceso = auth.authenticate(usuario = usuario, clave = clave )
-        self.acceso=acceso
-        if acceso is None:
-            self._message = 'Usuario o contraseña inválido'
-            return False
-        return True
+        else:
+            return True
 
 
 class FormAgregarValidator(Validator):

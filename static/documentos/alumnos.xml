@@ -1,0 +1,28 @@
+<contenido>
+<curso codigo="1" nombre="1001" jornada="Mañana"></curso>
+<alumno curso="1">
+    <nombre>sara </nombre>
+    <apellidos>ortega nuñes</apellidos>
+    <documento>11111</documento>
+</alumno>
+<alumno curso="1">
+    <nombre>angie marcela</nombre>
+    <apellidos>rosero uribe</apellidos>
+    <documento>22222</documento>
+</alumno>
+<alumno curso="1">
+    <nombre>andrea carolina</nombre>
+    <apellidos>arteaga lizcano</apellidos>
+    <documento>33333</documento>
+</alumno>
+<alumno curso="1">
+    <nombre>nicolas</nombre>
+    <apellidos>caicedo montes</apellidos>
+    <documento>44444</documento>
+</alumno>
+<alumno curso="1">
+    <nombre>brian fabian</nombre>
+    <apellidos>celis morales</apellidos>
+    <documento>55555</documento>
+</alumno>
+</contenido>

@@ -1,0 +1,182 @@
+{% extends 'template_docentes.html' %}
+{% block titulo %}Materias{% endblock  %}
+{% block content %}
+  <div class = "contenido_docente">
+    <h1 class="tit-grados">MATERIAS</h1><br><br>
+
+    <div class="foldPan">
+
+        <a  id="btn_fold_grupo" class="btn_fold_grupo"><span class="icon-plus"> </span>NUEVA MATERIA</a>
+    </div>
+    <div id="modal_confirmacion" class="modal_archivo">
+
+          <!-- Modal content -->
+      <div class="modal-content-archivo">
+            <a class="etiqueta_nivel">¿Seguro Que Desea Eliminar?</a><br>
+            <button onclick="confirmacion();" class="btn_si">Si</button>
+            <button onclick="cancelar();" class="btn_no">No</button>
+      </div>
+    </div>
+    <div id="modal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">x</span>
+        <!-- Formulari -->
+      <form action="{% url 'materia_new' %}" id="formNew" method=post name="formularioagrecasos" class="form_new_materia">
+          {% csrf_token %}
+          <div class="contenido">
+              <a class="etiqueta_nivel">Nombre De la Materia :  </a>
+              <input id = "Nom_mate" class = "text_nivel" type="text" name="Nom_mate"  placeholder="Nombre" /><br>
+              <a id="men_campo" class="men_campo" style="display:none">El campo no puede ser vacio!</a>
+          </div>
+      </form>
+      <button onclick="confirmaNuevo();"class="btn_save">Guardar</button>
+    </div>
+  </div>
+
+
+  <div id="modal2" class="modal">
+
+   <!-- Modal content -->
+   <div class="modal-content">
+     <span class="close2">x</span>
+     <!-- Formulari -->
+     <form action="{% url 'edit_materia' %}" id="formEdit" method=post name="formularioagrecasos" class="form_new_materia">
+         {% csrf_token %}
+         <div class="contenido">
+             <a class="etiqueta_nivel">Nombre De la Materia :  </a>
+             <input id = "Nom_materia" class = "text_nivel" type="text" name="Nom_materia"  placeholder="Nombre" /><br>
+              <input type="hidden" name="id_materia" id="id_materia" value="">
+              <a id="men_campo2" class="men_campo" style="display:none">El campo no puede ser vacio!</a>
+         </div>
+     </form>
+     <button onclick="confirmaEdicion();"class="btn_save">Guardar</button>
+     <!-- Fin Formulario-->
+
+   </div>
+
+  </div>
+    <table id="list-materias"class="table table-hover">
+          <thead>
+              <tr>
+                  <th class="titulos_tabla">N°</th>
+                  <th class="titulos_tabla">NOMBRE</th>
+                  <th class="titulos_tabla" colspan="2">OPCIONES</th>
+              </tr>
+          </thead>
+          <tbody>
+
+            {% for materia in materias %}
+              <tr>
+                  <td><a>{{ forloop.counter }}</a></td>
+                  <td class="nom-materia">{{ materia.nombre }}</td>
+                  <td><a class="b_editar" onclick="editar_materia('{{ materia.id }}','{{ materia.nombre }}');" ><span class="icon-pencil"> </span>Editar</a></td>
+                  <td><a class="b_editar" onclick="delete_materia('{{ materia.id }}');"><span class="icon-cross"> </span>Borrar</a></td>
+
+              </tr>
+
+
+          {% endfor %}
+
+          </tbody>
+      </table>
+  </div>
+  <div style="display:none">
+      <form action="{% url 'delete_materia' %}" method=post name="form_delete" id="form_delete" class="form_new_nivel">
+          {% csrf_token %}
+              <input type="hidden" name="id_materia_del" id="id_materia_del" value="">
+      </form>
+  </div>
+  <script type="text/javascript">
+      function gId(id)
+      {
+          return document.getElementById(id);
+      }
+
+      var modal = document.getElementById('modal');
+      var modal2 = document.getElementById('modal2');
+
+      // Get the button that opens the modal
+      var btn = document.getElementById("btn_fold_grupo");
+
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+      var span2 = document.getElementsByClassName("close2")[0];
+
+
+      // When the user clicks on the button, open the modal
+      btn.onclick = function()
+      {
+        modal.style.display = "block";
+        document.getElementById("Nom_materia").value = "";
+      }
+
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function()
+      {
+        modal.style.display = "none";
+
+
+
+      }
+      span2.onclick = function()
+      {
+
+        modal2.style.display = "none";
+
+
+      }
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event)
+      {
+        if (event.target == modal)
+        {
+          modal.style.display = "none";
+        }
+        if (event.target == modal2)
+        {
+          modal2.style.display = "none";
+        }
+      }
+      function editar_materia(id_materia,nombre_materia) {
+        var idM = id_materia;
+        var nombre= nombre_materia;
+        modal2.style.display = "block";
+        document.getElementById("id_materia").value = idM;
+        document.getElementById("Nom_materia").value = nombre;
+
+      }
+      function delete_materia(id_materia) {
+        var idM = id_materia;
+        document.getElementById("id_materia_del").value = idM;
+        modal_confirmacion.style.display = "block";
+      }
+      function confirmacion() {
+          gId("form_delete").submit();
+      }
+      function cancelar() {
+        modal_confirmacion.style.display = "none";
+      }
+      function confirmaNuevo() {
+        if (gId("Nom_mate").value != "")
+        {
+            gId("formNew").submit();
+        }
+        else {
+          gId("men_campo").style.display = "block";
+        }
+      }
+      function confirmaEdicion() {
+        if (gId("Nom_materia").value != "")
+        {
+
+            gId("formEdit").submit();
+        }
+        else {
+          gId("men_campo2").style.display = "block";
+        }
+      }
+  </script>
+{% endblock %}

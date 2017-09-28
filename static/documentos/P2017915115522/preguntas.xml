@@ -1,0 +1,68 @@
+<contenido>
+
+<pregunta opciones="4">
+    <enunciado>En programación de software, una sentencia hace relación al procedimiento mediante el cual:</enunciado>
+    <opcion tipo="f">El software se desaparece</opcion>
+    <opcion tipo="v">Actúa una línea de código escrita</opcion>
+    <opcion tipo="f">El software que aparece</opcion>
+    <opcion tipo="f">Actúa una línea de comandos</opcion>
+</pregunta>
+<pregunta opciones="4">
+    <enunciado>Los procedimientos en funciones dentro de la programación hace referencia a:</enunciado>
+    <opcion tipo="V">Una porción de código dentro de un programa más grande</opcion>
+    <opcion tipo="f">Una línea de código más grande</opcion>
+    <opcion tipo="f">Una porción de código que está duplicado</opcion>
+    <opcion tipo="f">Una línea de código más pequeña</opcion>
+</pregunta>
+<pregunta opciones="4">
+    <enunciado>Todo software debe llevar comentarios al código, con lo cual se posibilita</enunciado>
+    <opcion tipo="f">Más espacio dentro de la estructura del código fuente</opcion>
+    <opcion tipo="f">Menos espacio dentro de la estructura del código fuente</opcion>
+    <opcion tipo="f">Que san unas palabras reservadas que aparecen de color azul</opcion>
+    <opcion tipo="v">Que se identifique la funcionalidad de cada línea de código *</opcion>
+</pregunta>
+<pregunta opciones="4">
+    <enunciado>Cuando se elabora un Blog en Google, se debe tener especial cuidado con los vínculos, los cuales pueden ser palabras o imágenes que</enunciado>
+    <opcion tipo="f">Hacen ver mejor el Blog a los usuarios </opcion>
+    <opcion tipo="v">Facilitan ir de una página a otra o viceversa</opcion>
+    <opcion tipo="f">No suceda absolutamente nada</opcion>
+    <opcion tipo="f">El usuario se confunda sin saber que hacer</opcion>
+</pregunta>
+<pregunta opciones="4">
+    <enunciado>En programación, los objetos son muy necesarios para que el usuario por simple intuición tome una decisión, por ello son objetos</enunciado>
+    <opcion tipo="f">Un botón y un ojal</opcion>
+    <opcion tipo="f">Una caja y un reloj</opcion>
+    <opcion tipo="f">Un reloj y un código</opcion>
+    <opcion tipo="v">Una caja de texto y un botón</opcion>
+</pregunta>
+<pregunta opciones="4">
+    <enunciado>Incluye datos, procedimientos y pautas que permiten realizar distintas tareas en un sistema informático. Comúnmente se utiliza este término para referirse de una forma muy genérica a los programas de un dispositivo informático, ello es</enunciado>
+    <opcion tipo="f">sistemas</opcion>
+    <opcion tipo="f">disco duro</opcion>
+    <opcion tipo="f">hardware</opcion>
+    <opcion tipo="v">software</opcion>
+</pregunta>
+<pregunta opciones="4">
+    <enunciado>Un dispositivo informático hace referencia</enunciado>
+    <opcion tipo="V">impresora</opcion>
+    <opcion tipo="f">ventilador</opcion>
+    <opcion tipo="f">televisor</opcion>
+    <opcion tipo="f">radio-grabadora</opcion>
+</pregunta>
+<pregunta opciones="4">
+    <enunciado>La implementación de un algoritmo en un determinado lenguaje de programación, conformando un programa. Mientras que un algoritmo se ejecuta en una máquina abstracta que no tiene limitaciones de memoria o tiempo, un programa se ejecuta en una máquina real, que sí tiene esas limitaciones, se está hablando de</enunciado>
+    <opcion tipo="V">hay muchas sustancias en el agua de la piscina.</opcion>
+    <opcion tipo="f">el agua de la piscina es muy pesada.</opcion>
+    <opcion tipo="f">los pulmones se dañan con el agua de la piscina.</opcion>
+    <opcion tipo="f">el cuerpo necesita más oxígeno.</opcion>
+</pregunta>
+<pregunta opciones="4">
+    <enunciado>Cuando un niño nada sin gafas bajo el agua de la piscina sus ojos se enrojecen; esta irritación se debe principalmente a</enunciado>
+    <opcion tipo="V">la luz del sol que cae directamente en el agua.</opcion>
+    <opcion tipo="f">la ausencia de oxígeno en el agua.</opcion>
+    <opcion tipo="f">las pestañas que se meten en los ojos.</opcion>
+    <opcion tipo="f">la presencia de compuestos químicos en el agua.</opcion>
+</pregunta>
+</contenido>
+
+

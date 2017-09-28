@@ -2,40 +2,71 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>{% block titulo %} {% endblock %} </title>
-    <link rel ="stylesheet" href="/static/css/style.css">
-    <link rel ="stylesheet" href="/static/vendor/bootstrap-3.3.6/dist/css/bootstrap.min.css">
+    <link rel ="icon" type="image/x-icon"href="/static/images/sumapaz.ico">
+    <link rel ="stylesheet" href="/static/css/style_admin.css">
+    <link href="/static/css/bootstrap.css" rel="stylesheet" />
+    <link href="/static/fonts/style.css" rel="stylesheet" />
+    <link href="/static/fonts/Courgette-Regular.ttf" rel="stylesheet" />
+    <link href="/static/fonts/Righteous-Regular.ttf" rel="stylesheet" />
+    <link href="/static/fonts/Yesteryear-Regular.ttf" rel="stylesheet" />
+    <script src="/static/js/ajax.js"></script>
+    <script src="/static/js/jsapi.js"></script>
+    <script src="/static/js/loader.js"></script>
+    <script src="/static/js/basico.js"></script>
+    <script src="/static/js/dom.js"></script>
+    <script src="/static/js/upload.js"></script>
 
 
-</head>
-<body>
 
-
-
-    <header>
+    </head>
+    <header class="menu-horizontal">
         <div class="wrapper">
-            <div class="log">
-                <img src="/static/images/sumapaz.png">
-                <a>Institucion Educativa Tecnica sumapaz</a>
 
-            </div>
-            <div class="btns">
-                <a href="#">Salir</a>
-                <a href="#">Reportes</a>
-                <a href="#">Agregar</a>
-                <a href="#">Perfil</a>
+            <div>
+
+                <a class="btn-menu"href="/logout"><span class="icon-exit"> </span> Salir</a>
+                <a href="/ShowUsers" class="btn-menu" ><span class="icon-user"> </span> {{ user.first_name }}</a>
           </div>
         </div>
     </header>
 
-    <script src="/static/js/jquery-latest.js"></script>
-    <script src="/static/js/header.js"></script>
-    <script src="/static/js/jquery.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
-    <script src="/static/js/plugins/morris/raphael.min.js"></script>
-{% block content %}
-{% endblock %}
+    <div class="menu-vertical">
+      <div class="titulo_menu">
+            <img class="logo_menu"src="/static/images/sumapaz.png"><br>
+            <a class="titulo-institucion">Institucion Educativa Tecnica <br>sumapaz</a><br>
+      </div>
+      <ul>
+      <!--  <a href="/perfil_docente"><li>Perfil</li></a>-->
+        {% if perfil == "Administrador" %}
+            <a href="/ShowUsers"><li><span class="icon-users"> </span>   Usuarios </li></a>
+            <a href="/nivel_new"><li><span class="icon-stack"> </span>   Niveles</li></a>
+            <a href="/grupos_viw"><li><span class="icon-list2"> </span>   Grados</li></a>
+            <a href="/materia_new"><li><span class="icon-lab"> </span>   Materias</li></a>
+        {% endif %}
+        <a href="/ViwMateriaPre"><li><span class="icon-clipboard3"> </span>   Ver Preguntas</li></a>
+        <a href="/agregar"><li><span class="icon-upload2"> </span> Cargar Preguntas</li></a>
+        <a href="/viw_grados_estudiantes"><li><span class="icon-group"> </span>   Estudiantes</li></a>
+        <a href="/show_examenes"><li><span class="icon-clipboard2"> </span>   Examenes</li></a>
+        <a href="/reportes"><li><span class="icon-chart2"> </span>   Reportes</li></a>
 
+    </div>
+
+
+
+</head>
+<body onload="contraer();">
+{% block content %}
+    {% if mensaje != "" %}
+        <div class="contenido_docente">
+            <h1 class="tit-grados">{{ mensaje }}</h1>
+            <a href="/nivel_new"><button class="btn_save"><span class="icon-undo2"> </span> Volver</button></a>
+        </div>
+    {% endif %}
+{% endblock %}
 </body>
+
+<script src="/static/js/jquery-latest.js"></script>
+<script src="/static/js/header.js"></script>
+<script src="/static/js/jquery.js"></script>
 </html>

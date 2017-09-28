@@ -1,0 +1,167 @@
+{% extends 'template_docentes.html' %}
+{% block titulo %}Listado Preguntas{% endblock  %}
+{% block content %}
+  <div class = "contenido_docente">
+    <h1 class="tit-grados">PREGUNTAS DE {{ materia.nombre }}</h1>
+
+    <div id="modal_confirmacion" class="modal_archivo">
+
+          <!-- Modal content -->
+      <div class="modal-content-archivo">
+            <a class="etiqueta_nivel">¿Seguro que desea eliminar esta pregunta?<br>
+              Tenga en cuenta que se tambien se eliminaran todos los datos relacionados con ella</a><br>
+            <button onclick="confirmacion();" class="btn_si">Si</button>
+            <button onclick="cancelar();" class="btn_no">No</button>
+      </div>
+    </div>
+    <table id="list-estudiantes"class="table table-hover">
+          <thead>
+              <tr>
+                  <th class="titulos_tabla">N°</th>
+                  <th class="titulos_tabla">ENUNCIADO</th>
+                  <th class="titulos_tabla">IMAGEN</th>
+                  <th class="titulos_tabla">NIVEL</th>
+                  <th class="titulos_tabla" colspan="2">OPCIONES</th>
+              </tr>
+          </thead>
+          <tbody>
+
+
+            {% for pregunta in preguntas %}
+              <tr>
+                  <td><a>{{ forloop.counter }}</a></td>
+                  <td id="P_{{ pregunta.id }}" class="nom-materia" >{{ pregunta.enunciado }}</td>
+
+                  {% if pregunta.imagen != None %}
+                      <td class="nom-materia">Si</td>
+                  {% else %}
+                        <td class="nom-materia">No</td>
+                  {% endif %}
+                  {% for nivel in niveles %}
+                    {% if pregunta.nivel_id  == nivel.id%}
+                      <td class="nom-materia">{{ nivel.nombre }}</td>
+                    {% endif %}
+                  {% endfor %}
+                  <td><a class="b_editar" onclick="editar_pregunta('{{ pregunta.id }}');"><span class="icon-pencil"> </span>Editar</a></td>
+                  <td><a class="b_editar" onclick="delete_pregunta('{{ pregunta.id }}');"><span class="icon-cross"> </span>Borrar</a></td>
+
+
+
+              </tr>
+
+
+          {% endfor %}
+
+          </tbody>
+      </table>
+      <div style="display:none">
+          <form action="{% url 'delete_pregunta' %}" method=post name="form_delete" id="form_delete" class="form_new_nivel">
+              {% csrf_token %}
+                  <input type="hidden" name="id_pregunta_del" id="id_pregunta_del" value="">
+          </form>
+      </div>
+      <div style="display:none">
+          <form action="{% url 'infoPregunta' %}" method=post name="formEditPre" id="formEditPre" class="form_new_nivel">
+              {% csrf_token %}
+                  <input type="hidden" name="id_pregunta" id="id_pregunta" value="">
+          </form>
+      </div>
+  </div>
+  <script type="text/javascript">
+      preg = []
+      {% for e in preguntas %}
+          preg.push({{ e.id }});
+      {% endfor %}
+      function gId(id)
+      {
+          return document.getElementById(id);
+      }
+
+
+      var modal_confirmacion = document.getElementById('modal_confirmacion');
+      function folder()
+      {
+          if(gId(this.id.substring(4)).style.display != 'block')
+              gId(this.id.substring(4)).style.display = 'block';
+          else
+              gId(this.id.substring(4)).style.display = 'none';
+      }
+
+      var modal2 = document.getElementById('modal2');
+
+
+      // Get the <span> element that closes the modal
+
+      var span2 = document.getElementsByClassName("close2")[0];
+      // When the user clicks on <span> (x), close the modal
+
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event)
+      {
+
+        if (event.target == modal2)
+        {
+          modal2.style.display = "none";
+        }
+      }
+      function editar_pregunta(id_pregunta) {
+        var id_pregunta = id_pregunta;
+
+        document.getElementById("id_pregunta").value = id_pregunta;
+        gId("formEditPre").submit();
+
+      }
+      function delete_pregunta(id_pre) {
+        var idP = id_pre;
+        document.getElementById("id_pregunta_del").value = idP;
+        modal_confirmacion.style.display = "block";
+      }
+      function confirmacion() {
+          gId("form_delete").submit();
+      }
+      function cancelar() {
+        modal_confirmacion.style.display = "none";
+      }
+      function confirmaEdicion() {
+        if (gId("name").value != "")
+        {
+          if (gId("apellido").value != "" )
+           {
+             if (gId("Grados").value != "0" )
+             {
+                 if (gId("user").value != "" )
+                 {
+                   gId("form_edit_est").submit();
+                 }
+                 else
+                 {
+                   gId("men_campo2").style.display = "block";
+                 }
+             }
+             else {
+               gId("men_campo2").style.display = "block";
+             }
+           }
+           else {
+             gId("men_campo2").style.display = "block";
+           }
+
+        }
+        else {
+          gId("men_campo2").style.display = "block";
+        }
+      }
+      function contraer()
+      {
+
+        for(var  p = 0; p <= preg.length; p++)
+        {
+            texto_original = gId("P_"+preg[p]).innerHTML;
+            gId("P_"+preg[p]).innerHTML = texto_original.substring(0,50) + '...';
+
+        }
+      }
+
+  </script>
+{% endblock %}
